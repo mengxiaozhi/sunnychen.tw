@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import NextImage from 'next/image';
 import { useEffect, useId, useRef, useState } from 'react';
+import { SHARE_CARD_QR_LABEL, SHARE_CARD_SITE_LABEL, SHARE_CARD_SITE_URL } from '../data/share-card';
 import './deliberation-share-card.css';
 
 const DISCUSSION_URL = 'https://sunnychen.tw/deliberation/';
@@ -189,18 +190,18 @@ async function createCard(profile: Profile, signal: AbortSignal): Promise<Blob> 
     context.fillText('中和的下一步，', 80, 776);
     context.fillText('怡起聊聊。', 80, 867);
     context.fillStyle = PINK; star(context, 910, 868, 65);
-    context.fillStyle = INK; context.fillRect(0, 1027, 1080, 4);
-    context.fillStyle = '#FFFFFF'; context.fillRect(0, 1031, 1080, 319);
+    context.fillStyle = INK; context.fillRect(0, 993, 1080, 4);
+    context.fillStyle = '#FFFFFF'; context.fillRect(0, 997, 1080, 353);
     const logoScale = Math.min(440 / logo.naturalWidth, 144 / logo.naturalHeight);
     context.drawImage(logo, 72, 1080, logo.naturalWidth * logoScale, logo.naturalHeight * logoScale);
     context.fillStyle = INK; context.font = `700 26px ${CARD_FONT}`;
-    context.fillText('sunnychen.tw/deliberation/', 76, 1260);
+    context.fillText(SHARE_CARD_SITE_LABEL, 76, 1260);
     const qr = document.createElement('canvas');
-    await qrCode.toCanvas(qr, DISCUSSION_URL, { width: 218, margin: 4, errorCorrectionLevel: 'M', color: { dark: INK, light: '#FFFFFF' } });
+    await qrCode.toCanvas(qr, SHARE_CARD_SITE_URL, { width: 264, margin: 4, errorCorrectionLevel: 'M', color: { dark: INK, light: '#FFFFFF' } });
     if (signal.aborted) throw aborted();
-    context.drawImage(qr, 764, 1073, 218, 218);
+    context.drawImage(qr, 738, 1039, 264, 264);
     context.font = `700 22px ${CARD_FONT}`; context.textAlign = 'center';
-    context.fillText('掃描，一起聊聊', 873, 1296);
+    context.fillText(SHARE_CARD_QR_LABEL, 870, 1312);
     const blob = await awaitActive(new Promise<Blob>((resolve, reject) => canvas.toBlob(result => result ? resolve(result) : reject(new Error('無法產生 PNG。')), 'image/png')), signal);
     if (signal.aborted) throw aborted();
     return blob;
@@ -211,7 +212,7 @@ async function createCard(profile: Profile, signal: AbortSignal): Promise<Blob> 
   }
 }
 
-export default function DeliberationShareCard({ googleClientId }: { googleClientId: string }) {
+export default function DeliberationShareCard({ googleClientId, siteQrDataUrl }: { googleClientId: string; siteQrDataUrl: string }) {
   const titleId = useId();
   const [phase, setPhase] = useState<Phase>('idle');
   const [preview, setPreview] = useState<string | null>(null);
@@ -324,7 +325,7 @@ export default function DeliberationShareCard({ googleClientId }: { googleClient
       setPhase('google-ready'); setFeedback('請使用下方 Google 官方按鈕，選擇製卡使用的帳號。');
     } catch {
       if (!current(attempt) || controller.signal.aborted) return;
-      setPhase('error'); setFeedback('Google 登入暫時無法使用，請稍後重試。你仍可不具名參與討論。');
+      setPhase('error'); setFeedback('Google 登入暫時無法使用，請稍後重試。');
     }
   };
 
@@ -370,23 +371,11 @@ export default function DeliberationShareCard({ googleClientId }: { googleClient
   return (
     <section id="share-card" className="deliberation-share-card" aria-labelledby={titleId}>
       <div className="container share-card-layout">
-        <figure className="share-card-preview">
-          {preview ? <img src={preview} width="1080" height="1350" alt="你的個人分享小卡：我關心中和的日常。中和的下一步，怡起聊聊。包含你的姓名、頭像與討論網址 QR Code。" /> : (
-            <div className="share-card-demo" aria-label="分享小卡版型示意，尚未加入個人姓名與頭像">
-              <span className="share-card-demo-kicker">中和公共議題</span>
-              <p className="share-card-demo-title">我關心<br />中和的日常</p>
-              <p className="share-card-demo-person">登入後，加入<br />你的姓名與頭像</p>
-              <p className="share-card-demo-message">中和的下一步，<br />怡起聊聊。</p>
-              <div className="share-card-demo-footer"><NextImage src="/images/sunny-logo-v1.png" alt="陳怡君 Sunny Chen" width={2172} height={724} sizes="(max-width:700px) 160px, 195px" loading="lazy" /><span>sunnychen.tw/deliberation/</span></div>
-            </div>
-          )}
-          <figcaption>{preview ? '個人小卡預覽 · PNG 1080 × 1350' : '製卡示意 · 登入前不含個人資料'}</figcaption>
-        </figure>
         <div className="share-card-copy">
-          <p className="share-card-eyebrow">把討論，帶進生活</p>
-          <h2 id={titleId} className="share-card-title">一張小卡，<br />分享你的關心。</h2>
-          <p className="share-card-intro">用 Google 姓名與頭像製作個人小卡，邀請朋友一起聊中和的日常。</p>
-          <p className="share-card-privacy">資料只用於本頁製卡，不會連結你的議題表態。下載與分享由你決定；不登入也能參與討論。<Link href="/privacy/#google-share">了解資料處理方式</Link></p>
+          <p className="share-card-eyebrow">一張小卡，連結中和日常</p>
+          <h2 id={titleId} className="share-card-title">你的中和小卡，<br />分享日常的關心。</h2>
+          <p className="share-card-intro">用 Google 姓名與頭像製作中和小卡。小卡附有本站 QR Code，掃描就能認識怡君。</p>
+          <p className="share-card-privacy">資料只用於本頁製卡，不會連結你的議題表態。下載與分享由你決定，Google 登入與議題參與分開。<Link href="/privacy/#google-share">了解資料處理方式</Link></p>
           <div className="share-card-controls" aria-busy={busy}>
             {!configured && <p className="share-card-unconfigured">Google 製卡尚未設定，暫時無法製作個人小卡。</p>}
             {(phase === 'idle' || phase === 'error' || busy) && (
@@ -408,6 +397,18 @@ export default function DeliberationShareCard({ googleClientId }: { googleClient
           <p className="share-card-note">小卡不包含你的表態選擇，也沒有公開個人網址。清除此頁資料不會登出你的 Google 帳號。</p>
           <noscript><p className="share-card-note">製作小卡需要 JavaScript；你仍可閱讀議題與資料處理說明。</p></noscript>
         </div>
+        <figure className="share-card-preview">
+          {preview ? <img src={preview} width="1080" height="1350" alt="你的個人分享小卡：我關心中和的日常。中和的下一步，怡起聊聊。包含你的姓名、頭像與本站首頁 QR Code。" /> : (
+            <div className="share-card-demo" aria-label="分享小卡版型示意，尚未加入個人姓名與頭像">
+              <span className="share-card-demo-kicker">中和公共議題</span>
+              <p className="share-card-demo-title">我關心<br />中和的日常</p>
+              <p className="share-card-demo-person">登入後，加入<br />你的姓名與頭像</p>
+              <p className="share-card-demo-message">中和的下一步，<br />怡起聊聊。</p>
+              <div className="share-card-demo-footer"><div className="share-card-demo-brand"><NextImage src="/images/sunny-logo-v1.png" alt="陳怡君 Sunny Chen" width={2172} height={724} sizes="(max-width:700px) 160px, 195px" loading="lazy" /><span>{SHARE_CARD_SITE_LABEL}</span></div><div className="share-card-demo-qr"><img src={siteQrDataUrl} width="264" height="264" alt={`本站首頁 QR Code：${SHARE_CARD_SITE_URL}`} /><span>{SHARE_CARD_QR_LABEL}</span></div></div>
+            </div>
+          )}
+          <figcaption>{preview ? '個人小卡預覽 · PNG 1080 × 1350' : '製卡示意 · 登入前不含個人資料'}</figcaption>
+        </figure>
       </div>
     </section>
   );

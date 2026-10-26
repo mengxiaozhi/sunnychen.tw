@@ -2,8 +2,10 @@
 
 此整合副本以 REST API 搭配 Next.js 原生介面。請先閱讀 UPSTREAM.md；勿直接沿用上游預設 Worker、Queue 或既有討論金鑰。
 
+部署帳號固定為 `36ff5e232bfe09f5a2de48a444d9f547`（公開 account ID）。Queue 與 Worker 命令都使用本目錄固定的 wrangler.jsonc 與相同環境；正式 CORS 只允許 `https://sunnychen.tw`，localhost 僅留在本機設定。部署前先以 `wrangler whoami` 核對此帳號確實在 OAuth 授權範圍內。
+
 1. 本目錄執行 `npm ci` 與 `npm run check`。
-2. 執行 `npx wrangler login --scopes account:read user:read workers:write queues:write ai:write`，由帳號本人在 Cloudflare 完成 OAuth。
+2. 執行 `npx wrangler login --scopes account:read user:read workers:write workers_scripts:write queues:write ai:write`，由帳號本人在 Cloudflare 完成 OAuth。
 3. 使用 `npm run deploy:production`，建立獨立的 `sunnychen-polis` 與 `sunnychen-polis-sensemaking`。設定中沒有自訂網域，不需要修改 sunnychen.tw DNS。
 4. 透過 `wrangler secret put SUNNY_SETUP_TOKEN --env production` 輸入新產生的隨機值；不要將值放在命令列、文件或公開變數中。
 5. 驗證 `/api/health`，再以管理者 Bearer setup token 建立首場討論。標題與 12 個主持方起始觀點取自根目錄 `src/data/deliberation.ts`，設定保持 `autoApprove:false`、`allowSubmissions:true`、`openData:false`。

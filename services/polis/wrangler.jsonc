@@ -108,9 +108,10 @@
         ]
       },
       "vars": {
-        "SUNNY_ALLOWED_ORIGINS": "https://sunnychen.tw,http://localhost:4321",
+        "SUNNY_ALLOWED_ORIGINS": "https://sunnychen.tw",
         "SUNNY_SITE_URL": "https://sunnychen.tw"
       }
     }
-  }
+  },
+  "account_id": "36ff5e232bfe09f5a2de48a444d9f547"
 }

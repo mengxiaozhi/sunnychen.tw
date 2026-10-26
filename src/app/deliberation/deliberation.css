@@ -4,6 +4,9 @@
 .deliberation-intro h1 .highlight{background-image:linear-gradient(transparent 64%,var(--pink) 64%,var(--pink) 94%,transparent 94%)}
 .deliberation-intro-bottom{display:flex;align-items:center;justify-content:space-between;gap:48px;margin-top:35px}.deliberation-intro-bottom>p{font-size:19px;max-width:640px;line-height:1.95}.deliberation-intro-bottom .button{flex-shrink:0}
 .deliberation-purpose{font-size:12px;margin-top:28px;line-height:1.9}
+.deliberation-intro-actions{display:flex;flex-direction:column;align-items:flex-start;gap:18px;flex-shrink:0}
+.deliberation-intro-actions .button{background:var(--pink)}
+.deliberation-intro .deliberation-intro-actions .text-link{min-height:44px;margin-bottom:0;font-size:14px}
 .deliberation-content{padding-top:65px}.deliberation-topic{display:grid;grid-template-columns:1fr 1fr;gap:90px}.deliberation-topic .section-label{margin-bottom:18px}.deliberation-topic h2{font-size:clamp(32px,3.3vw,48px);font-weight:900;font-style:italic;line-height:1.5}.deliberation-topic>div>p+p{margin-top:16px}
 .deliberation-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:38px;list-style:none;padding:40px 0 48px;margin:40px 0 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink)}.deliberation-steps li>span{font-size:38px;font-weight:900;font-style:italic;color:#087879}.deliberation-steps h3{font-size:23px;margin:10px 0}.deliberation-steps p{font-size:14px;color:var(--muted)}
 .polis-participation{padding:70px 0;display:grid;grid-template-columns:.8fr 1.2fr;gap:75px;align-items:start}.polis-participation-heading h2,.polis-results h2,.polis-proposal h2{font-size:clamp(32px,3.7vw,52px);font-weight:900;font-style:italic;line-height:1.5}.polis-participation-heading .section-label{display:block;margin-bottom:18px}.polis-participation-heading>p{font-size:17px;line-height:1.95;margin-top:24px;max-width:340px}

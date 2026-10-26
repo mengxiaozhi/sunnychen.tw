@@ -4,6 +4,8 @@
 .deliberation-teaser h2{font-size:clamp(42px,4.5vw,70px);font-style:italic;font-weight:900;line-height:1.4}
 .deliberation-teaser-inner>div>p:not(.section-label):not(.deliberation-teaser-note){font-size:20px;line-height:1.9;margin-bottom:25px}
 .deliberation-teaser .button{background:var(--teal)}
+.deliberation-teaser-actions{display:flex;align-items:flex-start;flex-direction:column;gap:18px}
+.deliberation-teaser-actions .text-link{font-size:14px;min-height:44px}
 .deliberation-teaser .deliberation-teaser-note{font-size:12px;margin-top:20px;line-height:1.8;color:var(--muted)}
 @media(max-width:900px){.deliberation-teaser-inner{gap:45px}.deliberation-teaser h2{font-size:42px}.deliberation-teaser-inner>div>p:not(.section-label):not(.deliberation-teaser-note){font-size:17px}}
 @media(max-width:700px){.deliberation-teaser{padding:54px 0 58px}.deliberation-teaser-inner{grid-template-columns:1fr;gap:26px}.deliberation-teaser h2{font-size:36px}.deliberation-teaser .section-label{font-size:10px;margin-bottom:16px}.deliberation-teaser-inner>div>p:not(.section-label):not(.deliberation-teaser-note){font-size:16px}.deliberation-teaser .deliberation-teaser-note{font-size:11px}}

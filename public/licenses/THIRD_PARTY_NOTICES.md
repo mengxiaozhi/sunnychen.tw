@@ -43,7 +43,7 @@ Pocket Polis 服務有自己的套件與建置依賴，應依 `services/polis/` 
 
 實際 notice 包含 `Copyright (c) Hiroki Osame <hiroki.osame@gmail.com>`（tsx），以及 `Copyright (c) 2021-Present VoidZero Inc. and Vitest contributors`。摘要不取代上述完整檔案內的其他 notice。
 
-`services/polis/worker-configuration.d.ts` 另包含由 Wrangler 產生的執行期型別，檔頭標記 `workerd@1.20260828.1`、相容日期 `2026-09-01`。其中的 runtime types 依原檔頭採 **Apache License 2.0**，不是 Pocket Polis 或本站 MIT 授權的一部分；原檔保留以下聲明及原有授權／免責段落：
+`services/polis/worker-configuration.d.ts` 另包含由 Wrangler 產生的執行期型別，檔頭標記 `workerd@1.20261019.1`、相容日期 `2026-09-01`。其中的 runtime types 依原檔頭採 **Apache License 2.0**，不是 Pocket Polis 或本站 MIT 授權的一部分；原檔保留以下聲明及原有授權／免責段落：
 
 ```text
 Copyright (c) Cloudflare. All rights reserved.

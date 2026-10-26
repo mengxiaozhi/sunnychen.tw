@@ -3,7 +3,11 @@
 // Worker 與 Queue，讓自訂網域部署沿用既有 Durable Object namespace。
 import { readFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
-import { pathToFileURL } from "node:url";
+import { pathToFileURL, fileURLToPath } from "node:url";
+
+const projectDirectory = fileURLToPath(new URL("../", import.meta.url));
+const configPath = fileURLToPath(new URL("../wrangler.jsonc", import.meta.url));
+const wranglerPath = fileURLToPath(new URL("../node_modules/wrangler/bin/wrangler.js", import.meta.url));
 
 export function resolveQueueName(env, configText = readFileSync(new URL("../wrangler.jsonc", import.meta.url), "utf8")) {
   const stripped = configText
@@ -19,8 +23,9 @@ export function resolveQueueName(env, configText = readFileSync(new URL("../wran
   return name;
 }
 
-function runWrangler(args) {
-  const result = spawnSync("npx", ["wrangler", ...args], {
+function runWrangler(args, envName) {
+  const result = spawnSync(process.execPath, [wranglerPath, "--config", configPath, "--env", envName, ...args], {
+    cwd: projectDirectory,
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
   });
@@ -35,27 +40,27 @@ const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv
 if (isMain) {
   const envName = process.argv[2] || "";
   // Workers Builds (Deploy button / Git integration) sets WORKERS_CI=1 and uses a
-  // token that may not manage Queues. Wrangler creates the queue on first deploy
-  // there, so skip the pre-check instead of failing closed.
+  // token that may not manage Queues. Delegate provisioning to Wrangler; the
+  // deployment still needs permission to create/bind the queue and can fail.
   if (process.env.WORKERS_CI) {
-    console.log(`WORKERS_CI detected; skipping queue pre-check for "${resolveQueueName(envName)}" (wrangler deploy provisions it).`);
+    console.log(`WORKERS_CI detected; skipping queue pre-check for "${resolveQueueName(envName)}" (Wrangler provisioning still requires queue permissions).`);
     process.exit(0);
   }
   const queueName = resolveQueueName(envName);
   // 1. Check if queue already exists
-  const info1 = runWrangler(["queues", "info", queueName]);
+  const info1 = runWrangler(["queues", "info", queueName], envName);
   if (info1.status === 0) {
     process.exit(0);
   }
 
   // 2. If info failed (nonzero exit), attempt to create the queue
-  const create = runWrangler(["queues", "create", queueName]);
+  const create = runWrangler(["queues", "create", queueName], envName);
   if (create.status === 0) {
     process.exit(0);
   }
 
   // 3. If create failed (e.g. concurrent creation race), check info once more
-  const info2 = runWrangler(["queues", "info", queueName]);
+  const info2 = runWrangler(["queues", "info", queueName], envName);
   if (info2.status === 0) {
     process.exit(0);
   }

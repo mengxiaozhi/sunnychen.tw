@@ -26,6 +26,8 @@ describe("wrangler.jsonc", () => {
   });
 
   it("worker 名稱與進入點", () => {
+    expect(wrangler.account_id).toBe("36ff5e232bfe09f5a2de48a444d9f547");
+    expect(wrangler.env.production.vars.SUNNY_ALLOWED_ORIGINS).toBe("https://sunnychen.tw");
     expect(wrangler.name).toBe("sunnychen-polis");
     expect(wrangler.env.production.name).toBe(wrangler.name);
     expect(wrangler.main).toBe("src/sunny-worker.ts");

@@ -18,3 +18,8 @@ Never commit .dev.vars, .wrangler, OAuth credentials, or one-time admin tokens. 
 - The upstream demo datasets, GitHub workflows and agent-installation skill are omitted. No upstream demo response or participant is seeded into this site's discussion.
 - Participant/report/admin documents disallow embedding by unrelated domains.
 - Deployment tools are updated to compatible current releases and checked separately from the website.
+
+Deployment refresh for sunnychen.tw:
+- Pin the operator account in wrangler.jsonc, use production-only canonical CORS, and pass the same explicit environment/config/cwd to Queue commands.
+- Deploy dry-runs target production; environment/runtime types are regenerated for src/sunny-worker.ts.
+- The REST boundary has executable request tests for creation credentials, origin checks, moderation/export settings and request-size limits.

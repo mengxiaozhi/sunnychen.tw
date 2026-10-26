@@ -89,7 +89,11 @@ Google 登入是製作分享小卡的自選功能，使用 Google Identity Servi
 
 只有點擊「用 Google 製作小卡」後才載入 GIS 並取得 nonce，以 Google 官方按鈕開始登入，不啟動 One Tap。nonce Cookie 最長 10 分鐘、HttpOnly、SameSite=Strict；伺服器使用 `google-auth-library` 驗證簽章、`aud`／`iss`／`exp` 及 nonce，驗證處理後清除 Cookie，不建立個人資料 session。API 僅回傳姓名及已驗證頭像的 data URL，不回傳 `sub`、email 或 token。
 
-小卡為 1080 × 1350 PNG，以 `qrcode` 產生指向公開討論網址的 QR Code，不包含表態選擇或虛構參與結果。清除小卡或離開頁面時會清理頁面中的個人資料、未完成請求及 Blob URL；這不會登出使用者原有的 Google 帳號。支援時使用 Web Share Files，否則改為複製討論網址；自動複製失敗時顯示可手動複製的網址，不宣稱已發文。
+中和小卡是首頁 Hero 與公共議題頁的主要入口，公共議題頁將製卡區置於介紹之後、議題內容之前。首頁仍保留故事與 Facebook 入口，議題頁仍可直接前往參與區。
+
+小卡為 1080 × 1350 PNG，不包含表態選擇或虛構參與結果。畫面示意與下載卡皆以 `qrcode` 產生指向本站首頁 `https://sunnychen.tw/` 的 QR Code，並顯示同一首頁網域；網址、標籤與製卡入口統一維護於 `src/data/share-card.ts`。示意 QR 由 Server Component 產生並隨 HTML 顯示，不必登入或等候瀏覽器製卡；下載卡在瀏覽器使用相同網址常數產生 QR。分享按鈕與複製備援仍可帶入公開討論網址，與圖片上的首頁 QR 用途分開。
+
+清除小卡或離開頁面時會清理頁面中的個人資料、未完成請求及 Blob URL；這不會登出使用者原有的 Google 帳號。支援時使用 Web Share Files，否則改為複製討論網址；自動複製失敗時顯示可手動複製的網址，不宣稱已發文。
 
 Cloudflare AI 摘要若啟用，只處理已核准公開的觀點與統計，依服務程式設定的配額限制執行，不傳送 Google 姓名、頭像或登入身分。變更審核、開放資料、AI 或資料保存行為時，應同步更新 `src/app/privacy/page.tsx`；不要將 token、個人資料、管理憑證或審議原始資料提交至原始碼庫。Next.js 網站與 Cloudflare 審議服務是分開的部署邊界，前端建置成功不代表後端服務、Google 設定或 AI 已可用。
 

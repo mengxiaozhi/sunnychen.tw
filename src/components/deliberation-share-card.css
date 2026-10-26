@@ -1,6 +1,7 @@
-.deliberation-share-card { padding-block: 54px; border-top: 2px solid var(--ink); color: var(--ink); }
-.deliberation-share-card .share-card-layout { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); align-items: center; gap: clamp(32px, 6vw, 78px); }
-.deliberation-share-card .share-card-preview { width: min(100%, 390px); margin: 0 auto; container-type: inline-size; }
+.deliberation-share-card { padding-block: 64px; border-bottom: 2px solid var(--ink); background: var(--pink-light); color: var(--ink); scroll-margin-top: 105px; }
+.deliberation-share-card .share-card-layout { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1fr); grid-template-areas: 'preview copy'; align-items: center; gap: clamp(32px, 6vw, 78px); }
+.deliberation-share-card .share-card-copy { grid-area: copy; min-width: 0; }
+.deliberation-share-card .share-card-preview { grid-area: preview; width: min(100%, 390px); margin: 0 auto; container-type: inline-size; }
 .deliberation-share-card .share-card-preview > img,
 .deliberation-share-card .share-card-demo { width: 100%; aspect-ratio: 4 / 5; border: 2px solid var(--ink); box-shadow: 8px 8px 0 var(--pink); }
 .deliberation-share-card .share-card-preview > img { height: auto; }
@@ -10,9 +11,13 @@
 .deliberation-share-card .share-card-demo-kicker { position: absolute; top: 4.7%; left: 7%; font-size: clamp(8px, 2.6cqw, 11px); font-weight: 800; letter-spacing: .08em; }
 .deliberation-share-card .share-card-demo-title { position: absolute; top: 11.5%; left: 7.4%; margin: 0; width: fit-content; color: var(--ink); font-size: 10.7cqw; font-style: italic; font-weight: 900; line-height: 1.2; letter-spacing: -.055em; }
 .deliberation-share-card .share-card-demo-person { position: absolute; top: 34.8%; left: 6.5%; width: 86%; height: 17%; display: flex; align-items: center; margin: 0; padding: 0 6%; background: #fff; border: 1px solid var(--ink); box-shadow: 4px 4px 0 var(--pink); font-size: clamp(10px, 3.5cqw, 14px); font-weight: 700; line-height: 1.7; }
-.deliberation-share-card .share-card-demo-message { position: absolute; top: 57.5%; left: 7.4%; margin: 0; font-size: 5.9cqw; font-weight: 900; line-height: 1.5; }
-.deliberation-share-card .share-card-demo-footer { position: absolute; bottom: 0; left: 0; width: 100%; height: 23.6%; padding: 5% 7%; display: flex; flex-direction: column; justify-content: space-between; gap: 8px; background: #fff; border-top: 1px solid var(--ink); }
-.deliberation-share-card .share-card-demo-footer img { width: 50%; height: auto; }
+.deliberation-share-card .share-card-demo-message { position: absolute; top: 55%; left: 7.4%; margin: 0; font-size: 5.9cqw; font-weight: 900; line-height: 1.5; }
+.deliberation-share-card .share-card-demo-footer { position: absolute; bottom: 0; left: 0; width: 100%; height: 29%; padding: 2.8% 6%; display: grid; grid-template-columns: minmax(0, 1fr) 32%; align-items: center; gap: 5%; background: #fff; border-top: 1px solid var(--ink); }
+.deliberation-share-card .share-card-demo-brand { display: flex; height: 100%; flex-direction: column; justify-content: space-evenly; min-width: 0; }
+.deliberation-share-card .share-card-demo-brand img { width: 100%; height: auto; }
+.deliberation-share-card .share-card-demo-qr { display: grid; justify-items: center; gap: 1cqw; }
+.deliberation-share-card .share-card-demo-qr img { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+.deliberation-share-card .share-card-demo-qr span { white-space: nowrap; font-size: 2.1cqw; }
 .deliberation-share-card .share-card-demo-footer span { font-size: clamp(7px, 2.4cqw, 10px); font-weight: 700; line-height: 1.4; }
 .deliberation-share-card .share-card-eyebrow { display: inline-block; padding: 4px 10px; background: var(--pink); font-size: 11px; font-weight: 800; letter-spacing: .06em; transform: rotate(-2deg); }
 .deliberation-share-card .share-card-title { margin-top: 19px; font-size: clamp(30px, 4vw, 48px); line-height: 1.45; font-weight: 900; font-style: italic; letter-spacing: -.045em; }
@@ -40,9 +45,9 @@
 
 @media (max-width: 700px) {
   .deliberation-share-card { padding-block: 35px; }
-  .deliberation-share-card .share-card-layout { grid-template-columns: 1fr; gap: 32px; }
-  .deliberation-share-card .share-card-preview { width: min(100%, 320px); }
-  .deliberation-share-card .share-card-title { font-size: 33px; }
+  .deliberation-share-card .share-card-layout { grid-template-columns: 1fr; grid-template-areas: 'copy' 'preview'; gap: 32px; }
+  .deliberation-share-card .share-card-preview { width: min(calc(100% - 8px), 320px); }
+  .deliberation-share-card .share-card-title { font-size: clamp(27px, 7.5vw, 33px); }
   .deliberation-share-card .share-card-intro { font-size: 15px; }
   .deliberation-share-card .share-card-start,
   .deliberation-share-card .share-card-download,

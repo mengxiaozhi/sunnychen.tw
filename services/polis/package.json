@@ -1,7 +1,7 @@
 {
   "name": "@sunnychen/polis-service",
   "version": "0.1.0",
-  "description": "Pocket Polis (口袋審議): a lightweight Polis, designed and deployable in one step by AI agents — a complete wikisurvey round on a single Cloudflare Worker, no server to host",
+  "description": "Pocket Polis (\u53e3\u888b\u5be9\u8b70): a lightweight Polis, designed and deployable in one step by AI agents \u2014 a complete wikisurvey round on a single Cloudflare Worker, no server to host",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -16,11 +16,11 @@
   "scripts": {
     "dev": "wrangler dev",
     "mcp:backfill": "node scripts/backfill-mcp-registry.mjs",
-    "deploy": "node scripts/ensure-queue.mjs && wrangler deploy",
+    "deploy": "node scripts/ensure-queue.mjs && wrangler deploy --env=\"\"",
     "deploy:production": "node scripts/ensure-queue.mjs production && wrangler deploy --env production",
-    "deploy:dry": "wrangler deploy --dry-run",
+    "deploy:dry": "wrangler deploy --env production --dry-run",
     "typecheck": "tsc --noEmit",
-    "types": "wrangler types",
+    "types": "wrangler types --strict-vars=false",
     "test": "vitest run",
     "check": "npm run typecheck && npm test && npm run deploy:dry"
   },

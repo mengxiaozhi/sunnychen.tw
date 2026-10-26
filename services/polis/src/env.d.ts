@@ -1,10 +1,4 @@
 interface Env {
-  /** Optional service token enabling global MCP administration and private enumeration. */
+  /** Retained upstream type for private registry utilities; MCP is disabled. */
   MCP_ADMIN_TOKEN?: string;
-}
-
-interface Env {
-  SUNNY_SETUP_TOKEN?: string;
-  SUNNY_ALLOWED_ORIGINS?: string;
-  SUNNY_SITE_URL?: string;
 }
