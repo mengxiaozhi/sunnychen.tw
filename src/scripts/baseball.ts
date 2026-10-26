@@ -191,6 +191,7 @@ export function createBaseball(host: HTMLElement, callbacks: Callbacks): Basebal
     const step = Math.PI / 12;
     const moves: Record<string, [number, number]> = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
     if (event.key === 'Home') { event.preventDefault(); reset(); }
+    else if (event.key === ' ') { event.preventDefault(); if (!event.repeat) setRolling(!rollingRequested); }
     else if (moves[event.key]) { event.preventDefault(); rotate(...moves[event.key]); }
   }
   function contextLost(event: Event) {

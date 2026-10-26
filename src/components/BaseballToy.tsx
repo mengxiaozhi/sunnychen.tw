@@ -62,7 +62,7 @@ export default function BaseballToy() {
         role="group"
         aria-label="棒球 3D 互動模型"
         aria-describedby={hintId}
-        aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown Home"
+        aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown Home Space"
         tabIndex={ready ? 0 : -1}
       >
         <svg className="baseball-fallback" viewBox="0 0 180 180" aria-hidden="true">
@@ -76,12 +76,10 @@ export default function BaseballToy() {
       <div className="baseball-copy">
         <h3>怡起，<br />轉個好球。</h3>
         <p id={hintId} className="baseball-hint" aria-live="polite">
-          {status === 'loading' ? '棒球準備中…' : status === 'unavailable' ? '目前顯示靜態棒球。' : ready ? reducedMotion ? '已減少動態效果，仍可拖曳或用方向鍵轉動。' : rolling ? '棒球持續滾動，拖曳或用方向鍵也能轉。' : '已暫停，拖曳或用方向鍵也能轉。' : '一顆小棒球，和你怡起玩。'}
+          {status === 'loading' ? '棒球準備中…' : status === 'unavailable' ? '目前顯示靜態棒球。' : ready ? reducedMotion ? '已減少動態效果，仍可拖曳或用方向鍵轉動。' : rolling ? '拖曳或方向鍵可轉動，空白鍵可暫停。' : '已暫停，按空白鍵繼續滾動。' : '一顆小棒球，和你怡起玩。'}
         </p>
         <div className="baseball-actions">
           <button type="button" className="baseball-spin" disabled={!ready} onClick={() => controller.current?.spin()}>轉個好球 <Arrow diagonal /></button>
-          <button type="button" className="baseball-reset" disabled={!ready || reducedMotion} onClick={() => controller.current?.setRolling(!rolling)}>{rolling ? '暫停滾動' : '繼續滾動'}</button>
-          <button type="button" className="baseball-reset" disabled={!ready} onClick={() => controller.current?.reset()}>重設</button>
         </div>
       </div>
     </div>
