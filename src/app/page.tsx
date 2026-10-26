@@ -7,6 +7,7 @@ import BaseballToy from '../components/BaseballToy';
 import SupportSection from '../components/SupportSection';
 import ElectionCountdown from '../components/ElectionCountdown';
 import DeliberationTeaser from '../components/DeliberationTeaser';
+import ShareCardSection from '../components/ShareCardSection';
 import { chapters } from '../data/story';
 import { SHARE_CARD_ENTRY } from '../data/share-card';
 import './home.css';
@@ -42,8 +43,10 @@ export default function HomePage() {
           <span className="photo-caption">中和超拚 · 陳怡君</span>
         </div>
       </div>
-      <div className="hero-bottom"><div className="container hero-bottom-inner"><span className="hero-tagline">從大甲到中和，從生活走向服務。</span><ElectionCountdown /><Link href="#about" aria-label="往下閱讀關於怡君"><svg className="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v17m-6-6 6 6 6-6" /></svg></Link></div></div>
+      <div className="hero-bottom"><div className="container hero-bottom-inner"><span className="hero-tagline">從大甲到中和，從生活走向服務。</span><ElectionCountdown /><Link href={SHARE_CARD_ENTRY} aria-label="往下製作中和小卡"><svg className="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v17m-6-6 6 6 6-6" /></svg></Link></div></div>
     </section>
+
+    <ShareCardSection />
 
     <section id="about" className="about-section">
       <div className="container about-layout">

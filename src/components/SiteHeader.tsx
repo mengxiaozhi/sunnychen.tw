@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import Arrow from './Arrow';
 import BrandMark from './BrandMark';
+import { SHARE_CARD_ENTRY } from '../data/share-card';
 
 export default function SiteHeader() {
   const pathname = usePathname();
@@ -93,8 +94,8 @@ export default function SiteHeader() {
           <Link href="/deliberation/" onClick={closeMenu}>公共議題</Link>
           <Link href="/#updates" onClick={closeMenu}>社群動態</Link>
           <Link href="/#support" onClick={closeMenu}>支持怡君</Link>
-          <Link className="button button-small" href="/#contact" onClick={closeMenu}>
-            聯絡怡君 <Arrow />
+          <Link className="button button-small" href={SHARE_CARD_ENTRY} onClick={closeMenu}>
+            中和小卡 <Arrow />
           </Link>
         </nav>
       </div>

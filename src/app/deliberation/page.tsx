@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import QRCode from 'qrcode';
 import Arrow from '../../components/Arrow';
 import PolisExperience from '../../components/PolisExperience';
-import DeliberationShareCard from '../../components/DeliberationShareCard';
+import ShareCardSection from '../../components/ShareCardSection';
 import { deliberation, deliberationConfig } from '../../data/deliberation';
-import { SHARE_CARD_SITE_URL } from '../../data/share-card';
 import './deliberation.css';
 
 const title = '中和公共議題｜生活改善的優先順序｜陳怡君';
@@ -21,8 +19,7 @@ const schema = [
   { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: '首頁', item: 'https://sunnychen.tw/' }, { '@type': 'ListItem', position: 2, name: '中和公共議題', item: deliberation.canonical }] },
 ];
 
-export default async function DeliberationPage() {
-  const siteQrDataUrl = await QRCode.toDataURL(SHARE_CARD_SITE_URL, { width: 264, margin: 4, errorCorrectionLevel: 'M', color: { dark: '#153F3B', light: '#FFFFFF' } });
+export default function DeliberationPage() {
   return <main id="main" className="deliberation-page">
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }} />
     <section className="deliberation-intro"><div className="container">
@@ -32,7 +29,7 @@ export default async function DeliberationPage() {
       <p className="deliberation-purpose">這是自願參與的公共議題意見交流，不是正式投票，也不是具代表性的民調。</p>
     </div></section>
 
-    <DeliberationShareCard googleClientId={deliberationConfig.googleClientId} googleEnabled={deliberationConfig.googleShareEnabled} siteQrDataUrl={siteQrDataUrl} />
+    <ShareCardSection />
     <div className="container deliberation-content">
       <section className="deliberation-topic" aria-labelledby="topic-title"><div><p className="section-label">OUR FIRST CONVERSATION</p><h2 id="topic-title">{deliberation.title}</h2></div><div><p>每個人走的路、搭的車、使用的公園都不一樣。這場討論想先聽見不同的生活經驗，再找出可以一起往前的方向。</p><p>起始觀點由主持方整理，作為討論起點；你也能補充新觀點，審核通過後加入討論。所有回應都由實際參與者提供，不會預先填入模擬結果。</p></div></section>
       <ol className="deliberation-steps"><li><span>01</span><h3>讀一個觀點</h3><p>先理解別人的想法，不急著替任何人貼標籤。</p></li><li><span>02</span><h3>表達你的看法</h3><p>認同、不認同或略過，也可以補充一個新觀點。</p></li><li><span>03</span><h3>找出共同方向</h3><p>資料足夠時，看看意見分布與跨群的共同看法。</p></li></ol>
