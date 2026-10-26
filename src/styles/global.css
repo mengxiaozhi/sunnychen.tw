@@ -65,7 +65,8 @@ h1, h2 { letter-spacing: -.045em; }
 .site-header nav > a:not(.button):hover::after,
 .site-header nav > a:not(.button):focus-visible::after { transform: scaleX(1) skewX(-12deg); }
 .menu-toggle { display: none; background: var(--pink); border: 2px solid var(--ink); border-radius: 12px; width: 44px; height: 44px; padding: 9px; box-shadow: 3px 3px 0 var(--ink); }
-.menu-toggle span { display: block; height: 2px; background: var(--ink); margin: 6px 0; }
+.menu-toggle span { display: block; height: 2px; background: var(--ink); margin: 6px 0; transition: transform .25s ease; }
+.mobile-menu-caption, .mobile-menu-number, .mobile-menu-arrow, .mobile-menu-signature { display: none; }
 .skip-link { position: fixed; left: 15px; top: -100px; z-index: 100; background: var(--ink); color: #FFFFFF; padding: 10px 20px; }
 .skip-link:focus { top: 10px; }
 
@@ -111,15 +112,42 @@ h1, h2 { letter-spacing: -.045em; }
 @media (max-width: 700px) {
   html { scroll-padding-top: 90px; }
   .container { width: calc(100% - 40px); }
-  .header-inner { height: 74px; }
+  .header-inner { height: calc(74px + env(safe-area-inset-top, 0px)); padding-top: env(safe-area-inset-top, 0px); }
   .site-header .brand-mark { width: 175px; }
   .brand-caption { font-size: 10px; margin-top: -5px; }
-  .menu-toggle { display: block; }
-  .site-header nav { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--paper); padding: 20px 24px 30px; border-bottom: 2px solid var(--ink); align-items: stretch; gap: 8px; box-shadow: 0 5px 0 var(--pink); }
-  .site-header nav.is-open { display: flex; flex-direction: column; }
-  .site-header nav > a:not(.button) { padding: 12px 8px; }
-  .site-header nav > a:not(.button)::after { max-width: 72px; left: 8px; }
-  .site-header nav > .button { margin-top: 8px; }
+  .header-inner > .brand, .menu-toggle { position: relative; z-index: 3; }
+  .menu-toggle { display: block; flex-shrink: 0; }
+  .site-header[data-menu-open] .menu-toggle span:first-child { transform: translateY(4px) rotate(45deg); }
+  .site-header[data-menu-open] .menu-toggle span:last-child { transform: translateY(-4px) rotate(-45deg); }
+  .site-header nav {
+    display: flex; flex-direction: column; align-items: stretch; gap: 0;
+    position: fixed; inset: 0; z-index: 1; width: 100vw; height: 100vh; height: 100dvh;
+    overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch;
+    padding: calc(106px + env(safe-area-inset-top, 0px)) max(24px, env(safe-area-inset-right, 0px)) max(28px, env(safe-area-inset-bottom, 0px)) max(24px, env(safe-area-inset-left, 0px));
+    background: radial-gradient(ellipse at 100% 100%, #28c8c818, transparent 60%), var(--paper);
+    visibility: hidden; pointer-events: none; scrollbar-width: thin;
+  }
+  .site-header nav.is-present { visibility: visible; pointer-events: auto; }
+  .site-header:has(nav.is-present) .header-inner::before {
+    content: ''; position: fixed; inset: 0 0 auto; z-index: 2;
+    height: calc(76px + env(safe-area-inset-top, 0px)); background: var(--paper);
+  }
+  .mobile-menu-caption { display: flex; justify-content: space-between; flex-shrink: 0; padding-bottom: 18px; font-size: 11px; letter-spacing: .18em; color: var(--muted); }
+  .mobile-menu-caption span { color: #087879; }
+  .site-header nav > a:not(.button) {
+    display: flex; align-items: center; gap: 16px; flex-shrink: 0;
+    min-height: 64px; padding: clamp(15px, 2.4dvh, 28px) 2px;
+    border-bottom: 1px solid #153f3b24; font-size: clamp(24px, 6.5vw, 36px);
+    letter-spacing: -.025em; line-height: 1.35;
+  }
+  .mobile-menu-number { display: block; align-self: center; font-size: 11px; font-weight: 600; letter-spacing: .05em; color: #087879; }
+  .site-header nav .mobile-menu-arrow { display: block; width: 25px; height: 25px; margin-left: auto; }
+  .site-header nav > a:not(.button)::after { display: none; }
+  .site-header nav > a:not(.button):hover { color: #087879; }
+  .site-header nav > a:nth-of-type(5) { margin-bottom: 32px; }
+  .site-header nav > .button { margin-top: auto; flex-shrink: 0; min-height: 60px; padding: 16px 24px; font-size: 18px; justify-content: space-between; }
+  .mobile-menu-signature { display: flex; justify-content: space-between; flex-wrap: wrap; flex-shrink: 0; gap: 5px 16px; padding-top: 25px; font-size: 10px; letter-spacing: .12em; }
+  .mobile-menu-signature span { color: var(--muted); letter-spacing: .08em; }
   .button { padding: 14px 23px; font-size: 14px; }
   .site-footer { padding-top: 30px; }
   .footer-top { grid-template-columns: 1fr; gap: 24px; padding-bottom: 28px; align-items: center; }

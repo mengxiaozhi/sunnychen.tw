@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import SiteHeader from '../components/SiteHeader';
 import SiteFooter from '../components/SiteFooter';
 import PageMotion from '../components/PageMotion';
+import ShareCardSection from '../components/ShareCardSection';
 import '../styles/global.css';
 
 const title = '陳怡君 Sunny Chen｜中和・幸福怡起拚｜新北市議員參選人';
@@ -83,6 +84,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <a className="skip-link" href="#main">跳至主要內容</a>
         <SiteHeader />
         {children}
+        <ShareCardSection />
         <SiteFooter />
         <PageMotion />
       </body>

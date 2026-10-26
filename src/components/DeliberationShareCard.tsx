@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import NextImage from 'next/image';
 import { useEffect, useId, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
-import { SHARE_CARD_QR_LABEL, SHARE_CARD_SITE_LABEL, SHARE_CARD_SITE_URL } from '../data/share-card';
+import { SHARE_CARD_BASEBALL_ART, SHARE_CARD_QR_LABEL, SHARE_CARD_SITE_LABEL, SHARE_CARD_SITE_URL } from '../data/share-card';
 import './deliberation-share-card.css';
 
 const DISCUSSION_URL = 'https://sunnychen.tw/deliberation/';
@@ -161,22 +161,12 @@ function drawName(context: CanvasRenderingContext2D, name: string) {
   lines.forEach((line, index) => context.fillText(line, 300, 585 - height / 2 + index * size * 1.28));
 }
 
-function star(context: CanvasRenderingContext2D, x: number, y: number, radius: number) {
-  context.beginPath();
-  for (let index = 0; index < 8; index++) {
-    const angle = index * Math.PI / 4 - Math.PI / 2;
-    const distance = index % 2 ? radius * 0.27 : radius;
-    const px = x + Math.cos(angle) * distance, py = y + Math.sin(angle) * distance;
-    if (index === 0) context.moveTo(px, py); else context.lineTo(px, py);
-  }
-  context.closePath(); context.fill();
-}
-
 async function createCard(profile: Profile, signal: AbortSignal): Promise<Blob> {
   const avatarSource = profile.avatar && /^data:image\/(?:png|jpeg|webp|gif);base64,/i.test(profile.avatar) ? profile.avatar : null;
-  const [qrCode, logo, avatar] = await Promise.all([
+  const [qrCode, logo, baseballArt, avatar] = await Promise.all([
     awaitActive(import('qrcode'), signal),
     loadImage('/images/sunny-logo-v1.png', signal),
+    loadImage(SHARE_CARD_BASEBALL_ART, signal),
     avatarSource ? loadImage(avatarSource, signal).catch(error => { if (signal.aborted) throw error; return null; }) : Promise.resolve(null),
     awaitActive(document.fonts.ready, signal),
   ]);
@@ -190,9 +180,10 @@ async function createCard(profile: Profile, signal: AbortSignal): Promise<Blob> 
   signal.addEventListener('abort', erase, { once: true });
   try {
     context.fillStyle = TEAL; context.fillRect(0, 0, 1080, 1350);
+    context.drawImage(baseballArt, 0, 0, 1080, 1350);
     context.textBaseline = 'top'; context.fillStyle = INK;
     context.font = `800 28px ${CARD_FONT}`; context.fillText('中和公共議題', 76, 64);
-    context.fillStyle = PINK; star(context, 947, 103, 45);
+    context.fillStyle = PINK;
     context.save(); context.translate(93, 394); context.rotate(-0.025);
     context.fillRect(0, 0, 855, 35); context.restore();
     context.font = `italic 900 116px ${CARD_FONT}`; context.lineWidth = 13;
@@ -222,7 +213,6 @@ async function createCard(profile: Profile, signal: AbortSignal): Promise<Blob> 
     context.font = `900 64px ${CARD_FONT}`;
     context.fillText('中和的下一步，', 80, 776);
     context.fillText('怡起聊聊。', 80, 867);
-    context.fillStyle = PINK; star(context, 910, 868, 65);
     context.fillStyle = INK; context.fillRect(0, 993, 1080, 4);
     context.fillStyle = '#FFFFFF'; context.fillRect(0, 997, 1080, 353);
     const logoScale = Math.min(440 / logo.naturalWidth, 144 / logo.naturalHeight);
@@ -482,6 +472,7 @@ export default function DeliberationShareCard({ googleClientId, googleEnabled = 
         <figure className="share-card-preview">
           {preview ? <img src={preview} width="1080" height="1350" alt="你的個人分享小卡：我關心中和的日常。中和的下一步，怡起聊聊。包含你的稱呼、頭像與本站首頁 QR Code。" /> : (
             <div className="share-card-demo" aria-label="分享小卡版型示意，尚未加入個人姓名與頭像">
+              <img className="share-card-baseball-art" src={SHARE_CARD_BASEBALL_ART} width="1080" height="1350" alt="" aria-hidden="true" />
               <span className="share-card-demo-kicker">中和公共議題</span>
               <p className="share-card-demo-title">我關心<br />中和的日常</p>
               <p className="share-card-demo-person">填上稱呼，加入<br />你的生活日常</p>

@@ -7,7 +7,7 @@
 .deliberation-share-card .share-card-preview > img { height: auto; }
 .deliberation-share-card .share-card-preview figcaption { margin-top: 21px; text-align: center; color: var(--muted); font-size: 11px; line-height: 1.6; }
 .deliberation-share-card .share-card-demo { position: relative; overflow: hidden; background: var(--teal); }
-.deliberation-share-card .share-card-demo::after { content: '✦'; position: absolute; top: 4%; right: 7%; color: var(--pink); font-size: 36px; line-height: 1; }
+.deliberation-share-card .share-card-baseball-art { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; user-select: none; }
 .deliberation-share-card .share-card-demo-kicker { position: absolute; top: 4.7%; left: 7%; font-size: clamp(8px, 2.6cqw, 11px); font-weight: 800; letter-spacing: .08em; }
 .deliberation-share-card .share-card-demo-title { position: absolute; top: 11.5%; left: 7.4%; margin: 0; width: fit-content; color: var(--ink); font-size: 10.7cqw; font-style: italic; font-weight: 900; line-height: 1.2; letter-spacing: -.055em; }
 .deliberation-share-card .share-card-demo-person { position: absolute; top: 34.8%; left: 6.5%; width: 86%; height: 17%; display: flex; align-items: center; margin: 0; padding: 0 6%; background: #fff; border: 1px solid var(--ink); box-shadow: 4px 4px 0 var(--pink); font-size: clamp(10px, 3.5cqw, 14px); font-weight: 700; line-height: 1.7; }

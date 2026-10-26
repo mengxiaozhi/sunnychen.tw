@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350" fill="none">
+  <!-- Decorative artwork shared by the on-screen demo and exported PNG. -->
+  <g stroke="#F6B1AA" stroke-width="7" stroke-linecap="round">
+    <path d="M742 122h48M752 151h27"/>
+  </g>
+  <g transform="translate(900 165) rotate(18)">
+    <circle cx="10" cy="11" r="94" fill="#F6B1AA"/>
+    <circle r="94" fill="#FFFFFF" stroke="#153F3B" stroke-width="3"/>
+    <g stroke="#CE6964" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M-55-75C-9-43-9 43-55 75M55-75C9-43 9 43 55 75" stroke-width="2.5"/>
+      <path d="M-54.48 -64.64L-37.55 -70.41" stroke-width="4"/>
+      <path d="M-42.69 -51.06L-24.84 -52.25" stroke-width="4"/>
+      <path d="M-34.32 -34.28L-16.65 -31.50" stroke-width="4"/>
+      <path d="M-29.57 -15.45L-12.79 -9.25" stroke-width="4"/>
+      <path d="M-28.69 7.50L-13.66 17.20" stroke-width="4"/>
+      <path d="M-31.90 26.66L-19.07 39.12" stroke-width="4"/>
+      <path d="M-38.64 44.15L-28.89 59.15" stroke-width="4"/>
+      <path d="M-48.79 59.02L-43.24 76.03" stroke-width="4"/>
+      <path d="M43.24 -76.03L48.79 -59.02" stroke-width="4"/>
+      <path d="M28.89 -59.15L38.64 -44.15" stroke-width="4"/>
+      <path d="M19.07 -39.12L31.90 -26.66" stroke-width="4"/>
+      <path d="M13.66 -17.20L28.69 -7.50" stroke-width="4"/>
+      <path d="M12.79 9.25L29.57 15.45" stroke-width="4"/>
+      <path d="M16.65 31.50L34.32 34.28" stroke-width="4"/>
+      <path d="M24.84 52.25L42.69 51.06" stroke-width="4"/>
+      <path d="M37.55 70.41L54.48 64.64" stroke-width="4"/>
+    </g>
+  </g>
+  <g transform="translate(885 835)">
+    <path d="M0 87-87 0 0-87 87 0Z" fill="#FFFFFF" fill-opacity=".09" stroke="#FFFFFF" stroke-opacity=".7" stroke-width="3"/>
+    <path d="M0 87-119-32M0 87 119-32" stroke="#FFFFFF" stroke-opacity=".55" stroke-width="3"/>
+    <path d="M-119-32A123 123 0 0 1 119-32" stroke="#FFFFFF" stroke-opacity=".55" stroke-width="3" stroke-dasharray="6 10"/>
+    <g fill="#F6B1AA" stroke="#153F3B" stroke-width="2">
+      <path d="M0-98 11-87 0-76-11-87ZM-98 0-87-11-76 0-87 11ZM76 0 87-11 98 0 87 11Z"/>
+      <path d="M-11 77H11V88L0 98-11 88Z"/>
+    </g>
+    <circle r="12" fill="#FFFFFF" fill-opacity=".8"/>
+    <path d="M-7 0H7" stroke="#153F3B" stroke-width="3" stroke-linecap="round"/>
+  </g>
+</svg>
