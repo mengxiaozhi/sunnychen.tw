@@ -75,6 +75,9 @@ h1, h2 { letter-spacing: -.045em; }
 .footer-top p { position: relative; width: fit-content; padding: 4px 0 13px 34px; border-left: 2px solid var(--ink); font-size: 21px; font-style: italic; font-weight: 900; line-height: 1.65; letter-spacing: .12em; }
 .footer-top p::after { content: ''; position: absolute; bottom: 2px; left: 34px; width: 145px; height: 7px; background: var(--pink); transform: skewX(-20deg) rotate(-3deg); }
 .footer-top .text-link { align-self: center; }
+.footer-socials { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 24px; min-width: 254px; }
+.footer-socials .text-link { justify-content: space-between; min-height: 44px; font-size: 14px; gap: 12px; white-space: nowrap; }
+.footer-socials .arrow { width: 16px; height: 16px; }
 .footer-bottom { border-top: 1px solid var(--ink); display: flex; flex-wrap: wrap; align-items: center; gap: 12px 30px; padding-block: 23px; font-size: 11px; color: var(--muted); letter-spacing: .04em; }
 .footer-bottom span:nth-child(2) { margin-left: auto; }
 .footer-links { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
@@ -90,7 +93,8 @@ h1, h2 { letter-spacing: -.045em; }
   .site-header .brand-mark { width: 186px; }
   .site-header nav { gap: 20px; font-size: 14px; }
   .site-header .button-small { padding-inline: 17px; }
-  .footer-top { gap: 25px; }
+  .footer-top { grid-template-columns: auto 1fr; gap: 25px; }
+  .footer-socials { grid-column: 1 / -1; grid-template-columns: repeat(4, minmax(0, 1fr)); min-width: 0; width: 100%; }
   .footer-top .brand-mark { width: 205px; }
   .footer-top p { font-size: 18px; padding-left: 24px; }
   .footer-top p::after { left: 24px; width: 125px; }
@@ -117,12 +121,14 @@ h1, h2 { letter-spacing: -.045em; }
   .site-header nav > .button { margin-top: 8px; }
   .button { padding: 14px 23px; font-size: 14px; }
   .site-footer { padding-top: 30px; }
-  .footer-top { grid-template-columns: 1fr auto; gap: 24px 14px; padding-bottom: 28px; align-items: center; }
+  .footer-top { grid-template-columns: 1fr; gap: 24px; padding-bottom: 28px; align-items: center; }
   .footer-top .brand-mark { width: 180px; }
   .footer-top .brand-caption { font-size: 10px; }
   .footer-top p { grid-column: 1 / -1; grid-row: 2; font-size: 18px; padding-left: 19px; }
   .footer-top p::after { left: 19px; }
   .footer-top .text-link { font-size: 12px; gap: 6px; }
+  .footer-socials { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 20px; }
+  .footer-socials .text-link { font-size: 13px; gap: 12px; }
   .footer-bottom { gap: 12px 18px; flex-wrap: wrap; font-size: 10px; padding-block: 21px; }
   .footer-bottom span:nth-child(2) { margin-left: 0; }
   .footer-bottom a { margin-left: auto; }

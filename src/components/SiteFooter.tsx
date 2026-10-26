@@ -1,5 +1,13 @@
 import Link from 'next/link';
 import BrandMark from './BrandMark';
+import Arrow from './Arrow';
+
+const socialLinks = [
+  { name: 'Facebook', href: 'https://www.facebook.com/share/19dWyQKa3o/' },
+  { name: 'Instagram', href: 'https://www.instagram.com/sunnychentpp' },
+  { name: 'Threads', href: 'https://www.threads.com/@sunnychentpp' },
+  { name: 'YouTube', href: 'https://youtube.com/channel/UClPZECXX3FfZWvuThCpoGaA' },
+];
 
 export default function SiteFooter() {
   const year = new Intl.DateTimeFormat('en', { year: 'numeric', timeZone: 'Asia/Taipei' }).format(new Date());
@@ -11,9 +19,13 @@ export default function SiteFooter() {
           <BrandMark />
         </Link>
         <p>中和的日常，<br />幸福怡起拚。</p>
-        <a className="text-link" href="https://www.facebook.com/tppsunny" target="_blank" rel="noopener noreferrer">
-          Facebook <span aria-hidden="true">↗</span>
-        </a>
+        <nav className="footer-socials" aria-label="社群連結">
+          {socialLinks.map(({ name, href }) => (
+            <a className="text-link" href={href} key={name} target="_blank" rel="noopener noreferrer" aria-label={`${name}（另開新視窗）`}>
+              {name}<Arrow diagonal />
+            </a>
+          ))}
+        </nav>
       </div>
       <div className="container footer-bottom">
         <span>© {year} 陳怡君 Sunny Chen</span>
