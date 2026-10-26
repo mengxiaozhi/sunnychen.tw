@@ -49,7 +49,7 @@ npm run start
 - `src/app/story/page.tsx`：完整故事與書頁圖庫。
 - `src/app/deliberation/page.tsx`：中和公共議題的說明、參與入口與該頁 SEO 資料。
 - `src/data/deliberation.ts`：議題文案、主持人準備的起始觀點與公開部署設定；`src/lib/polis.ts` 負責 REST 介接及每場討論的匿名識別碼。
-- `src/components/ShareCardSection.tsx`：首頁與公共議題頁共用的 Server Component，統一產生示意 QR 並傳入 Google 製卡旗標與公開 Client ID。
+- `src/components/ShareCardSection.tsx`：首頁製卡區的 Server Component，產生示意 QR 並傳入 Google 製卡旗標與公開 Client ID。
 - `src/components/DeliberationShareCard.tsx`：免登入填寫稱呼、選取本機照片、瀏覽器製卡、下載與分享；保留可另行啟用的 Google 製卡。`src/app/api/share-card/google/` 與 `src/lib/google-share.server.ts` 負責一次性 nonce 與 Google 官方憑證驗證。
 - `services/polis/`：Pocket Polis 審議服務與 Cloudflare 部署設定；保留上游授權及服務本身的依賴文件。
 - `src/app/layout.tsx`：共用導覽、頁尾及 SEO 資料。
@@ -93,9 +93,9 @@ Google 製卡目前維護中，原 Google Identity Services 流程及驗證 API 
 
 Google 入口啟用後，只有點擊「用 Google 帶入姓名與頭像」才載入 GIS 並取得 nonce，以 Google 官方按鈕開始登入，不啟動 One Tap。nonce Cookie 最長 10 分鐘、HttpOnly、SameSite=Strict；伺服器使用 `google-auth-library` 驗證簽章、`aud`／`iss`／`exp` 及 nonce，驗證處理後清除 Cookie，不建立個人資料 session。API 僅回傳姓名及已驗證頭像的 data URL，不回傳 `sub`、email 或 token。姓名與頭像只保留於頁面記憶體，不寫入 `localStorage` 或匿名表態資料庫，不與 `pid` 綁定。
 
-首頁在 Hero 之後、關於怡君（about）之前直接呈現完整製卡區，不必先進入議題頁。主要製卡入口 `SHARE_CARD_ENTRY` 統一為 `/#share-card`；首頁仍保留故事與 Facebook 入口。公共議題頁也保留同一製卡區，位於介紹之後、議題內容之前，原有 `/deliberation/#share-card` 與該頁的 `#share-card` 入口繼續有效，議題參與區亦可直接前往。
+完整製卡區只設於首頁，位在 Hero 之後、關於怡君（about）之前。主要製卡入口 `SHARE_CARD_ENTRY` 統一為 `/#share-card`；首頁仍保留故事與 Facebook 入口。`/deliberation/` 專注於議題背景與參與討論，該路由的頁首主按鈕為「參與討論」，其他頁面則保留「中和小卡」入口。
 
-小卡為 1080 × 1350 PNG，不包含表態選擇或虛構參與結果。畫面示意與下載卡皆以 `qrcode` 產生指向本站首頁 `https://sunnychen.tw/` 的 QR Code，並顯示同一首頁網域；網址、標籤與製卡入口統一維護於 `src/data/share-card.ts`。兩頁共用 `ShareCardSection` 在伺服器產生示意 QR 並隨 HTML 顯示，不必登入或等候瀏覽器製卡；實際製卡、Google 旗標與資料清理由同一個 `DeliberationShareCard` 處理，下載卡在瀏覽器使用相同網址常數產生 QR。分享按鈕與複製備援仍可帶入公開討論網址，與圖片上的首頁 QR 用途分開。
+小卡為 1080 × 1350 PNG，不包含表態選擇或虛構參與結果。畫面示意與下載卡皆以 `qrcode` 產生指向本站首頁 `https://sunnychen.tw/` 的 QR Code，並顯示同一首頁網域；網址、標籤與製卡入口統一維護於 `src/data/share-card.ts`。首頁的 `ShareCardSection` 在伺服器產生示意 QR 並隨 HTML 顯示，不必登入或等候瀏覽器製卡；實際製卡、Google 旗標與資料清理由 `DeliberationShareCard` 處理，下載卡在瀏覽器使用相同網址常數產生 QR。分享按鈕與複製備援仍可帶入公開討論網址，與圖片上的首頁 QR 用途分開。
 
 選擇「清除小卡資料」或離開頁面時會清理手動輸入／Google 提供的個人資料、未完成請求、製卡資源及 Blob URL；這不會刪除已下載或分享的副本，也不會登出使用者原有的 Google 帳號。小卡在瀏覽器產生，由使用者主動下載或分享，沒有公開個人分享網址。支援時使用 Web Share Files，否則改為複製討論網址；自動複製失敗時顯示可手動複製的網址，不宣稱已發文。
 

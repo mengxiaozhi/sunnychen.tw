@@ -9,6 +9,9 @@ import { SHARE_CARD_ENTRY } from '../data/share-card';
 
 export default function SiteHeader() {
   const pathname = usePathname();
+  const primaryAction = pathname === '/deliberation' || pathname === '/deliberation/'
+    ? { href: '/deliberation/#participate', label: '參與討論' }
+    : { href: SHARE_CARD_ENTRY, label: '中和小卡' };
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -94,8 +97,8 @@ export default function SiteHeader() {
           <Link href="/deliberation/" onClick={closeMenu}>公共議題</Link>
           <Link href="/#updates" onClick={closeMenu}>社群動態</Link>
           <Link href="/#support" onClick={closeMenu}>支持怡君</Link>
-          <Link className="button button-small" href={SHARE_CARD_ENTRY} onClick={closeMenu}>
-            中和小卡 <Arrow />
+          <Link className="button button-small" href={primaryAction.href} onClick={closeMenu}>
+            {primaryAction.label} <Arrow />
           </Link>
         </nav>
       </div>
