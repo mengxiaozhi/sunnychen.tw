@@ -1,4 +1,4 @@
-@font-face{font-family:'Noto Sans TC Variable';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/sunny-noto-tc-v1.woff2') format('woff2')}
+@font-face{font-family:'Noto Sans TC Variable';font-style:normal;font-weight:100 900;font-display:swap;src:url('/fonts/sunny-noto-tc-v2.woff2') format('woff2')}
 @font-face{font-family:'Caveat Variable';font-style:normal;font-weight:400 700;font-display:swap;src:url('/fonts/sunny-caveat-v1.woff2') format('woff2')}
 
 :root {
@@ -94,6 +94,14 @@ h1, h2 { letter-spacing: -.045em; }
   .footer-top .brand-mark { width: 205px; }
   .footer-top p { font-size: 18px; padding-left: 24px; }
   .footer-top p::after { left: 24px; width: 125px; }
+}
+@media (min-width: 701px) and (max-width: 900px) {
+  .site-header .header-inner { gap: 18px; }
+  .site-header .brand-mark { width: 164px; }
+  .site-header nav { gap: 14px; font-size: 13px; }
+  .site-header nav > a { white-space: nowrap; }
+  .site-header .button-small { padding-inline: 12px; font-size: 13px; gap: 10px; }
+  .site-header .button-small .arrow { width: 20px; height: 20px; }
 }
 @media (max-width: 700px) {
   html { scroll-padding-top: 90px; }

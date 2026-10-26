@@ -3,6 +3,9 @@ import Link from 'next/link';
 import Arrow from '../components/Arrow';
 import ChapterTabs from '../components/ChapterTabs';
 import Spark from '../components/Spark';
+import BaseballToy from '../components/BaseballToy';
+import SupportSection from '../components/SupportSection';
+import ElectionCountdown from '../components/ElectionCountdown';
 import { chapters } from '../data/story';
 import './home.css';
 
@@ -37,12 +40,12 @@ export default function HomePage() {
           <span className="photo-caption">中和超拚 · 陳怡君</span>
         </div>
       </div>
-      <div className="hero-bottom"><div className="container hero-bottom-inner"><span>從大甲到中和，從生活走向服務。</span><Link href="#about" aria-label="往下閱讀關於怡君"><svg className="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v17m-6-6 6 6 6-6" /></svg></Link></div></div>
+      <div className="hero-bottom"><div className="container hero-bottom-inner"><span className="hero-tagline">從大甲到中和，從生活走向服務。</span><ElectionCountdown /><Link href="#about" aria-label="往下閱讀關於怡君"><svg className="arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v17m-6-6 6 6 6-6" /></svg></Link></div></div>
     </section>
 
     <section id="about" className="about-section">
       <div className="container about-layout">
-        <div className="about-intro"><p className="section-label">HELLO, I'M SUNNY</p><h2><span className="about-name">我是陳怡君。</span><br /><span className="about-life">把生活的歷練，</span><br />化成<span className="highlight">服務的力量。</span></h2><Spark className="about-spark" /><span className="about-speed" aria-hidden="true"><i /><i /><i /></span></div>
+        <div className="about-intro"><p className="section-label">HELLO, I'M SUNNY</p><h2><span className="about-name">我是陳怡君。</span><br /><span className="about-life">把生活的歷練，</span><br />化成<span className="highlight">服務的力量。</span></h2><BaseballToy /></div>
         <div className="about-detail"><p>從台中大甲出發，走過家業的起落，也在旅遊業打拚了 16 年。走遍世界之後，我選擇在中和扎根。</p><p>一路走來，學會照顧人、傾聽不同的聲音，也懂得每一個為生活努力的人，都有自己的故事。</p><ol className="experience"><li><span className="experience-index" aria-hidden="true">01</span><div><span>現在</span><p>新北市中和區市議員參選人</p></div></li><li><span className="experience-index" aria-hidden="true">02</span><div><span>現在</span><p>立法委員黃國昌中和永和區主任</p></div></li><li><span className="experience-index" aria-hidden="true">03</span><div><span>曾任</span><p>陳世軒議員服務處秘書</p></div></li></ol><Link className="text-link about-link" href="/story/">更多關於我的故事 <Arrow /></Link></div>
       </div>
     </section>
@@ -69,6 +72,8 @@ export default function HomePage() {
         <Link className="update-item" href="/story/#roots"><div className="update-image temple-image"><img src="/images/story-07-640.webp" srcSet="/images/story-07-640.webp 640w, /images/story-07.webp 1020w" sizes="(max-width:700px) 95vw, 33vw" alt="故事書記錄陳怡君在中和烘爐地的回憶" width="1020" height="1360" loading="lazy" /></div><span className="update-category">在地記憶 · 中和</span><h3>把中和，放在心上 <Arrow /></h3><p>烘爐地的燈火，讓漂泊的心有了一個可以安放的角落。</p></Link>
       </div>
     </div></section>
+
+    <SupportSection />
 
     <section id="contact" className="contact-section"><div className="container">
       <div className="contact-main"><div><p className="section-label">LET'S KEEP IN TOUCH</p><h2>你的聲音，<br />我想<span className="highlight">聽見。</span></h2></div><div className="contact-action"><p>生活裡的大小事，<br />歡迎與怡君聯繫。</p><a className="button" href="https://m.me/tppsunny" target="_blank" rel="noopener noreferrer">傳訊息給怡君 <Arrow diagonal /></a><a className="contact-fb" href={facebook} target="_blank" rel="noopener noreferrer">追蹤 Facebook <Arrow diagonal /></a></div></div>

@@ -1,0 +1,25 @@
+.baseball-toy{display:grid;grid-template-columns:210px minmax(0,1fr);align-items:center;gap:8px;max-width:440px;margin-top:30px;color:var(--ink)}
+.baseball-viewport{position:relative;width:100%;aspect-ratio:1;isolation:isolate;border-radius:50%;touch-action:pan-y;outline-offset:5px;-webkit-tap-highlight-color:transparent}
+.baseball-viewport::before{content:'';position:absolute;inset:27% 4% 20%;background:var(--pink);border:1.5px solid var(--ink);border-radius:50%;transform:rotate(-27deg);z-index:-2}
+.baseball-viewport::after{content:'';position:absolute;width:50%;height:9%;left:25%;bottom:10%;background:#153f3b26;filter:blur(6px);border-radius:50%;z-index:-1}
+.baseball-viewport canvas,.baseball-fallback{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.baseball-viewport canvas{opacity:0}
+.baseball-fallback{transform:rotate(-13deg)}
+[data-baseball-state=ready] .baseball-viewport{cursor:grab}
+[data-baseball-state=ready] .baseball-viewport:active{cursor:grabbing}
+[data-baseball-state=ready] .baseball-viewport canvas{opacity:1}
+[data-baseball-state=ready] .baseball-fallback{visibility:hidden}
+.baseball-copy h3{font-size:25px;line-height:1.45;font-style:italic;font-weight:900;letter-spacing:-.04em}
+.baseball-hint{font-size:11px;line-height:1.8;margin-top:9px;max-width:160px;min-height:40px}
+.baseball-actions{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:8px}
+.baseball-actions button{min-height:44px;font-size:12px;font-weight:800;line-height:1.4;color:var(--ink);cursor:pointer}
+.baseball-spin{display:inline-flex;gap:9px;align-items:center;justify-content:center;padding:9px 13px;border:1.5px solid var(--ink);background:var(--teal);border-radius:24px;box-shadow:3px 3px 0 var(--ink)}
+.baseball-spin:hover:not(:disabled){background:var(--pink)}
+.baseball-spin:active:not(:disabled){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.baseball-spin>.arrow{width:14px;height:14px}
+.baseball-reset{border:0;background:transparent;text-decoration:underline;text-underline-offset:4px;padding:9px 8px}
+.baseball-actions button:disabled{opacity:.55;cursor:default}
+@media(max-width:1200px){.baseball-toy{grid-template-columns:180px minmax(0,1fr);gap:4px}.baseball-copy h3{font-size:22px}.baseball-hint{font-size:10px}.baseball-actions{gap:0}.baseball-actions button{font-size:11px}.baseball-spin{padding-inline:10px;gap:5px}.baseball-reset{padding-inline:6px}}
+@media(max-width:900px) and (min-width:701px){.baseball-toy{grid-template-columns:150px minmax(0,1fr);gap:2px}.baseball-copy h3{font-size:19px}.baseball-hint{font-size:10px}.baseball-actions{margin-top:4px}}
+@media(max-width:700px){.baseball-toy{grid-template-columns:minmax(150px,185px) minmax(0,1fr);max-width:390px;margin-top:20px;gap:10px}.baseball-copy h3{font-size:23px}.baseball-hint{font-size:11px}.baseball-actions button{font-size:11px}.baseball-spin{padding-inline:11px}}
+@media(max-width:370px){.baseball-toy{grid-template-columns:155px minmax(0,1fr);gap:5px}.baseball-copy h3{font-size:20px}.baseball-hint{font-size:10px}.baseball-spin{padding-inline:9px}.baseball-reset{padding-left:0}}

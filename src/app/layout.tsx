@@ -70,7 +70,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
   return (
     <html lang="zh-Hant-TW">
       <head>
-        <link rel="preload" href="/fonts/sunny-noto-tc-v1.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/sunny-noto-tc-v2.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, '\\u003c') }} />
       </head>
       <body>

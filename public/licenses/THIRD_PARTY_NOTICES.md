@@ -12,6 +12,7 @@
 | [React](https://github.com/facebook/react) | 19.3.1 | MIT | `Copyright (c) Meta Platforms, Inc. and affiliates.`；`node_modules/react/LICENSE`，原文副本：[react-MIT.txt](LICENSES/react-MIT.txt) |
 | React DOM | 19.3.1 | MIT | 同上；`node_modules/react-dom/LICENSE` 與上述 React 授權原文相同 |
 | [GSAP](https://github.com/greensock/GSAP) | 3.15.0 | GreenSock Standard “no charge” license | `Copyright 2008-2026, GreenSock. All rights reserved.`；使用 GSAP、ScrollTrigger；上游原始碼 banner 副本：[GSAP-NOTICE.txt](LICENSES/GSAP-NOTICE.txt) |
+| [Three.js](https://github.com/mrdoob/three.js) | 0.186.1 | MIT | `Copyright © 2010-2026 three.js authors`；原檔 `node_modules/three/LICENSE`，完整原文副本：[three-MIT.txt](LICENSES/three-MIT.txt) |
 
 **GSAP 不是 MIT。** 安裝套件的 `package.json` 標示為 `Standard 'no charge' license: https://gsap.com/standard-license.`，程式碼 banner 也指向 [GSAP 標準授權](https://gsap.com/standard-license)。本站保留的 `GSAP-NOTICE.txt` 是原始碼聲明副本，不是標準授權全文；使用及散布仍依上游條款，不能以本專案 MIT 取代。[GSAP 官方 README](https://github.com/greensock/GSAP/blob/master/README.md)亦明列該授權名稱及連結。
 
@@ -25,10 +26,26 @@
 | `@types/node` | 24.19.2 | MIT | `node_modules/@types/node/LICENSE` |
 | `@types/react` | 19.3.0 | MIT | `node_modules/@types/react/LICENSE` |
 | `@types/react-dom` | 19.3.0 | MIT | `node_modules/@types/react-dom/LICENSE` |
+| `@types/three` | 0.186.0 | MIT | `node_modules/@types/three/LICENSE` |
 | `csstype` | 3.2.3 | MIT | `node_modules/csstype/LICENSE` |
 | `undici-types` | 7.24.6 | MIT | `node_modules/undici-types/LICENSE` |
 
-已安裝的三個 `@types/*` 授權檔均保留 `Copyright (c) Microsoft Corporation.`。TypeScript 的 `ThirdPartyNoticeText.txt` 另外列有 DefinitelyTyped 與 Unicode 等上游材料，不能用一段 Apache-2.0 摘要代替該檔。
+上述 `@types/node`、`@types/react`、`@types/react-dom`、`@types/three` 的授權檔均保留 `Copyright (c) Microsoft Corporation.`。TypeScript 的 `ThirdPartyNoticeText.txt` 另外列有 DefinitelyTyped 與 Unicode 等上游材料，不能用一段 Apache-2.0 摘要代替該檔。
+
+### Three.js 型別套件帶入的開發依賴
+
+`@types/three` 0.186.0 另帶入下列套件；目前鎖檔均標示為開發依賴。列入此表不表示首頁棒球在執行時使用 Rapier、Tween.js、WebXR 或模型解壓縮器。本站棒球的執行期模組只從 `three` 匯入所需功能，模型與皮革細節由本站程式產生。
+
+| 套件 | 鎖定版本 | 授權 | 安裝後的原文位置 |
+| --- | --- | --- | --- |
+| `@dimforge/rapier3d-compat` | 0.12.0 | Apache-2.0 | `node_modules/@dimforge/rapier3d-compat/LICENSE` |
+| `@tweenjs/tween.js` | 23.1.3 | MIT | `node_modules/@tweenjs/tween.js/LICENSE` |
+| `@types/stats.js` | 0.17.4 | MIT | `node_modules/@types/stats.js/LICENSE` |
+| `@types/webxr` | 0.5.24 | MIT | `node_modules/@types/webxr/LICENSE` |
+| `fflate` | 0.8.3 | MIT | `node_modules/fflate/LICENSE` |
+| `meshoptimizer` | 1.1.1 | MIT | `node_modules/meshoptimizer/LICENSE.md` |
+
+其中 Tween.js 的原文保留 `Copyright (c) 2010-2012 Tween.js authors.` 與 `Easing equations Copyright (c) 2001 Robert Penner http://robertpenner.com/easing/`；`fflate` 保留 `Copyright (c) 2026 Arjun Barrett`；`meshoptimizer` 保留 `Copyright (c) 2016-2026 Arseny Kapoulkine`。兩個新增的間接 `@types/*` 套件同樣保留 Microsoft Corporation 的 copyright notice。上述路徑的完整授權仍應隨相關套件保留。
 
 ## 鎖檔中的其他依賴
 
@@ -85,7 +102,8 @@
 
 | 字型與檔案 | 適用授權 | 必須隨檔保留的完整原文 |
 | --- | --- | --- |
-| Noto Sans TC 子集：`public/fonts/sunny-noto-tc-v1.woff2` | SIL Open Font License 1.1 | [OFL-NotoSansTC.txt](public/fonts/OFL-NotoSansTC.txt) |
+| Noto Sans TC 目前子集：`public/fonts/sunny-noto-tc-v2.woff2` | SIL Open Font License 1.1 | [OFL-NotoSansTC.txt](public/fonts/OFL-NotoSansTC.txt) |
+| Noto Sans TC 保留的舊版子集：`public/fonts/sunny-noto-tc-v1.woff2` | SIL Open Font License 1.1 | 同上，保留相同完整 OFL 與 copyright notice |
 | Caveat 子集：`public/fonts/sunny-caveat-v1.woff2` | SIL Open Font License 1.1 | [OFL-Caveat.txt](public/fonts/OFL-Caveat.txt) |
 
 隨附 notice 原文分別為：

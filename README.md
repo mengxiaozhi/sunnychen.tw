@@ -4,7 +4,7 @@
 
 正式網域為 [sunnychen.tw](https://sunnychen.tw)，Vercel 專案名稱為 `sunnychen-tw`，`www.sunnychen.tw` 以 308 轉址至主網域。
 
-Next.js 版本已於 2026 年 10 月 26 日完成正式部署。青粉改版正式站手機 Lighthouse：效能 91、無障礙 100、最佳實務 100、SEO 100，CLS 0。量測會受網路與裝置環境影響。已驗證 320、360、390、430、768、1024、1536px 的四個頁面無水平溢出，以及 GSAP、章節導覽、Next.js 換頁返回、減少動態與載入失敗備援。
+Next.js 版本已於 2026 年 10 月 26 日完成正式部署。青粉改版正式站手機 Lighthouse（加入 Three.js 棒球前）：效能 91、無障礙 100、最佳實務 100、SEO 100，CLS 0。量測會受網路與裝置環境影響。已驗證 320、360、390、430、768、1024、1536px 的四個頁面無水平溢出，以及 GSAP、章節導覽、Next.js 換頁返回、減少動態與載入失敗備援。
 
 ## 開源與授權
 
@@ -49,14 +49,19 @@ npm run start
 - `src/app/story/page.tsx`：完整故事與書頁圖庫。
 - `src/app/layout.tsx`：共用導覽、頁尾及 SEO 資料。
 - `src/styles/global.css`：色彩、字型與共用樣式；各頁 CSS 有頁面範圍，避免換頁後樣式互相影響。
-- `src/components/SiteHeader.tsx`：手機選單與共用導覽。
+- `src/components/SiteHeader.tsx`：手機選單與共用導覽，包含「支持怡君」入口。
+- `src/components/SupportSection.tsx`：首頁聯絡區前的支持專區；線上捐款網址與六項政治獻金專戶資料統一在此維護。
 - `src/components/ChapterTabs.tsx`：React 章節狀態與鍵盤操作。
 - `src/components/PageMotion.tsx`：Next.js 換頁後初始化 GSAP，離頁時清理。
 - `src/scripts/motion.ts`：GSAP 首屏入場、捲動揭示、章節切換與桌面微互動。
+- `src/components/BaseballToy.tsx`、`src/scripts/baseball.ts`：首頁棒球互動介面、延後載入與 Three.js 程序模型；樣式位於 `src/components/baseball.css`。
+- `src/components/ElectionCountdown.tsx`、`src/data/election.ts`：首頁投票日倒數與台灣時間的日期邊界。
 - `src/app/privacy/page.tsx`：隱私權說明。
 - `public/images/`：網站使用的照片與分享圖片。
 
 社群動態是人工整理的靜態內容與外部連結，沒有自動同步 Facebook。電話、電子信箱及服務據點地址取自已查證的公開粉絲專頁，異動時請同步更新首頁。本網站未加入分析追蹤工具，也沒有收集資料的表單。
+
+支持專區的線上捐款網址與六項帳戶資料依委託方提供內容設定。捐款按鈕另開外部網站，本站沒有付款表單；更新時修改 `src/components/SupportSection.tsx`，不在本文件重複維護銀行資料。
 
 ## 動畫
 
@@ -67,6 +72,20 @@ GSAP 與 ScrollTrigger 由 npm 安裝並由本站提供，首頁與故事頁採�
 章節錨點使用瀏覽器即時定位。請勿直接恢復全域 `scroll-behavior: smooth`，圖片與字型載入時的 ScrollTrigger refresh 可能中止原生平滑捲動，導致深連結停在錯誤位置。
 
 動畫驗證包含快速切換章節、鍵盤焦點、即時減少動態、手機選單、故事深連結與返回、五種螢幕寬度、動畫模組阻擋及無 JavaScript 情境。
+
+### 互動棒球
+
+首頁人物介紹區加入 Three.js 0.186.1 棒球，接近可視區域時才載入 3D 模組。球面、縫線、針腳與皮革細節皆由程式產生，沒有外部貼圖或 GLB 模型請求。
+
+可拖曳旋轉，或聚焦球體後使用方向鍵操作；`Home` 與「重設」按鈕回到初始角度。「轉個好球」播放約一秒的轉圈與小幅跳動；啟用減少動態時改為直接轉換角度。沒有持續自轉，只有操作或畫面需要更新時才繪製，離開可視區域或分頁進入背景時停止動畫。離頁會釋放事件、觀察器與 WebGL 資源；JavaScript 關閉、3D 模組載入失敗或 WebGL 不可用時保留 SVG 棒球備援。
+
+### 投票日倒數
+
+投票日為 2026 年 11 月 28 日，日期與[中選會公告](https://www.cec.gov.tw/central/article/61722)一致。倒數目標是台灣時間當日 00:00，代表進入投票日，不表示投票所開放時間。當天顯示「今天是投票日」，台灣時間 11 月 29 日起顯示「投票日已結束」。
+
+每秒以目前時間重新計算天、時、分、秒；背景分頁暫停計時器，回到前景時重新校正。數字不向輔助工具每秒播報。靜態 HTML 保留日期，掛載後才顯示即時數值，避免伺服器與瀏覽器時間不同造成 hydration 錯誤。
+
+原創程序建模與互動程式適用本專案 MIT；Three.js 保留自己的 MIT notice，詳見 [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)。人物、照片與官方識別素材的授權例外維持不變。
 
 ## SEO
 
@@ -85,4 +104,18 @@ GSAP 與 ScrollTrigger 由 npm 安裝並由本站提供，首頁與故事頁採�
 
 ### 字型效能
 
-繁中字型已依目前文案縮減為自架 WOFF2 子集（約 174 KB），簽名字型約數 KB。更新文案後，可安裝 `fonttools[woff]`，使用官方 Noto Sans TC 可變字型執行 `python scripts/subset-fonts.py /path/to/NotoSansTC-variable.ttf`。若替換字型檔，請一併更新檔名版本與 `src/app/layout.tsx` 預載路徑、`global.css` 路徑，避免長效快取。未包含的字元會使用系統字型。SIL OFL 授權保留在 `public/fonts/`。
+目前使用 `public/fonts/sunny-noto-tc-v2.woff2`，大小為 209448 bytes（約 205 KiB）；簽名字型約數 KB。字型子集涵蓋目前 `src/` 文案，產生腳本會讀取 `.astro`、`.ts`、`.tsx` 與 `.css`，包含新增的支持專區與倒數文字。
+
+更新文案後，可安裝 `fonttools[woff]`，使用官方 Noto Sans TC 可變字型執行：
+
+```sh
+python scripts/subset-fonts.py /path/to/NotoSansTC-variable.ttf
+```
+
+預設輸出檔名為 `sunny-noto-tc-v2.woff2`。也可用第二個參數指定下一版檔名，輸出位置仍在 `public/fonts/`：
+
+```sh
+python scripts/subset-fonts.py /path/to/NotoSansTC-variable.ttf sunny-noto-tc-v3.woff2
+```
+
+新增版本後，請同步更新 `src/app/layout.tsx` 的預載路徑與 `src/styles/global.css` 的字型路徑，避免長效快取沿用舊檔；目前兩處均使用 v2。未包含的字元會使用系統字型。保留的 v1 舊版與新增 v2 均適用 `public/fonts/` 隨附的 SIL OFL 授權。

@@ -85,6 +85,7 @@ export function initPageMotion(main: HTMLElement) {
         '.chapter-panel:not([hidden]) .story-polaroid',
         '.chapter-panel:not([hidden]) .chapter-copy', '.quote-inner',
         '.contact-main > div', '.contact-details', '.story-chapter .chapter-photo',
+        '.support-intro', '.support-account',
         '.story-chapter .chapter-copy', '.pause-inner', '.gallery-heading',
       ].join(',')).forEach(element => reveal(element));
       main.querySelectorAll<HTMLElement>('.update-item, .book-pages li').forEach((element, index) => {

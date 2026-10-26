@@ -1,0 +1,39 @@
+.election-countdown {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: min(100%, 360px);
+  min-width: 0;
+  color: var(--ink);
+  text-align: left;
+  letter-spacing: normal;
+  line-height: 1.4;
+}
+
+.election-countdown-label { flex: 0 0 auto; }
+.election-countdown-title { display: block; font-size: 14px; font-weight: 900; letter-spacing: .04em; }
+.election-countdown-label time { display: block; margin-top: 3px; font-size: 10px; font-weight: 600; white-space: nowrap; }
+.election-countdown-digits {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  flex: 1;
+  min-width: 0;
+  gap: 10px;
+  padding-left: 14px;
+  border-left: 1px solid #153f3b55;
+  text-align: center;
+}
+.election-countdown-unit { min-width: 0; }
+.election-countdown-number { display: block; font-size: 30px; font-weight: 900; font-variant-numeric: tabular-nums; letter-spacing: -.045em; line-height: 1; }
+.election-countdown-unit-label { display: block; margin-top: 4px; font-size: 10px; font-weight: 700; line-height: 1; }
+.election-countdown-message { flex: 1; padding-left: 14px; border-left: 1px solid #153f3b55; font-size: 17px; font-weight: 900; line-height: 1.5; }
+
+@media (max-width: 700px) {
+  .election-countdown { width: min(100%, 290px); gap: 12px; }
+  .election-countdown-title { font-size: 12px; }
+  .election-countdown-label time { font-size: 9px; }
+  .election-countdown-digits { gap: 7px; padding-left: 10px; }
+  .election-countdown-number { font-size: 24px; }
+  .election-countdown-unit-label { font-size: 9px; }
+  .election-countdown-message { padding-left: 10px; font-size: 15px; }
+}

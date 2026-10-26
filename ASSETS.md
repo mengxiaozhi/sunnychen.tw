@@ -48,13 +48,20 @@ Image Gen 處理沒有使官方識別自動轉為可自由再授權素材。`sun
 
 主色 `#28C8C8` 由委託方指定；輔色 `#F6B1AA` 為官方封面速度線的取樣值，並非宣稱官方公布的品牌標準色碼。
 
+## 程序建模棒球
+
+首頁的 3D 棒球由本站 `src/scripts/baseball.ts` 以 Three.js 建立球面、曲線縫線與針腳，並以確定性的數值程序產生皮革凹凸細節。`src/components/BaseballToy.tsx` 包含互動介面與自行繪製的 SVG 備援圖。這項實作沒有載入外部照片貼圖、GLB 或其他下載的模型，也沒有將故事書或官方文宣中的棒球影像轉成模型。
+
+本站原創的程序建模與互動程式適用根目錄 `LICENSE` 的 MIT 授權；可授權的原創圖形與版面表達依 `LICENSE-CONTENT.md` 的原創設計授權處理。使用的 Three.js 本身保留上游 MIT 條款及 notice，完整副本見 [three-MIT.txt](LICENSES/three-MIT.txt)。這項新增實作不改變前述人物、照片、故事書、官方 Logo 與品牌素材的授權例外，也不授予人物、團隊或第三方的姓名、商標與背書權限。
+
 ## 字型
 
 字型不適用上述競選照片的權利說明，也不改授本專案的 MIT 或 Creative Commons 授權。本站自架的字型子集適用各自附帶的 **SIL Open Font License 1.1**：
 
 | 字型檔案 | 隨附完整授權與原始 notice |
 | --- | --- |
-| `public/fonts/sunny-noto-tc-v1.woff2` | [OFL-NotoSansTC.txt](public/fonts/OFL-NotoSansTC.txt)：Copyright 2014-2021 Adobe，Reserved Font Name 為 `Source` |
+| `public/fonts/sunny-noto-tc-v2.woff2`（目前使用，包含新增 TSX 文案） | [OFL-NotoSansTC.txt](public/fonts/OFL-NotoSansTC.txt)：Copyright 2014-2021 Adobe，Reserved Font Name 為 `Source` |
+| `public/fonts/sunny-noto-tc-v1.woff2`（保留的舊版子集） | 同上，適用相同 SIL Open Font License 1.1 與原始 notice |
 | `public/fonts/sunny-caveat-v1.woff2` | [OFL-Caveat.txt](public/fonts/OFL-Caveat.txt)：Copyright 2014 The Caveat Project Authors |
 
 散布這些字型或其子集時，保留隨附的 copyright notice 與完整 OFL；字型修改版仍依 OFL 處理，並遵守其 Reserved Font Name 等條件。一般作業系統備援字型僅列於 CSS 字型名稱中，沒有隨本專案提供字型檔。
