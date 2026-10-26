@@ -438,8 +438,7 @@ export default function DeliberationShareCard({ googleClientId, googleEnabled = 
         <div className="share-card-copy">
           <p className="share-card-eyebrow">一張小卡，連結中和日常</p>
           <h2 id={titleId} className="share-card-title">你的中和小卡，<br />分享日常的關心。</h2>
-          <p className="share-card-intro">填上稱呼、選一張照片，就能製作你的中和小卡。不必登入，小卡也附有本站 QR Code。</p>
-          <p className="share-card-privacy">稱呼與照片只在你的瀏覽器內製卡，不會上傳，也不會連結議題表態。下載與分享由你決定。<Link href="/privacy/#local-share">了解資料處理方式</Link></p>
+          <p className="share-card-privacy"><Link href="/privacy/#local-share">了解資料處理方式</Link></p>
           <div className="share-card-controls" aria-busy={busy}>
             <form className="share-card-form" onSubmit={event => { void createLocalCard(event); }}>
               <fieldset disabled={busy || sharing}>
