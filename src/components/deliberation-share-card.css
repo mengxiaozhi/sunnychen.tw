@@ -25,7 +25,20 @@
 .deliberation-share-card .share-card-privacy { margin-top: 17px; font-size: 13px; line-height: 1.9; color: var(--muted); }
 .deliberation-share-card .share-card-privacy a { display: inline; margin-left: .3em; color: var(--ink); text-decoration: underline; text-underline-offset: 4px; }
 .deliberation-share-card .share-card-controls { margin-top: 25px; }
-.deliberation-share-card .share-card-unconfigured { margin-bottom: 16px; font-size: 13px; line-height: 1.9; }
+.deliberation-share-card .share-card-unconfigured { margin-top: 16px; font-size: 12px; line-height: 1.9; color: var(--muted); }
+.deliberation-share-card .share-card-form fieldset { display: grid; min-width: 0; gap: 10px; padding: 0; margin: 0; border: 0; }
+.deliberation-share-card .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.deliberation-share-card .share-card-form label { font-size: 14px; font-weight: 800; }
+.deliberation-share-card .share-card-form label span { color: var(--muted); font-size: 12px; font-weight: 500; }
+.deliberation-share-card .share-card-form input { width: 100%; min-width: 0; min-height: 48px; border: 1.5px solid var(--ink); border-radius: 8px; padding: 11px 13px; background: #fff; color: var(--ink); font: 14px/1.5 var(--font); }
+.deliberation-share-card .share-card-form input[type='file'] { padding: 6px; font-size: 12px; }
+.deliberation-share-card .share-card-form input::file-selector-button { min-height: 34px; margin-right: 9px; border: 0; border-radius: 5px; padding: 5px 10px; background: var(--pink); color: var(--ink); font: inherit; font-weight: 700; cursor: pointer; }
+.deliberation-share-card .share-card-form input:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+.deliberation-share-card .share-card-photo-help { font-size: 11px; line-height: 1.8; color: var(--muted); }
+.deliberation-share-card .share-card-photo-error { font-size: 12px; line-height: 1.8; color: #8a2135; }
+.deliberation-share-card .share-card-form .share-card-start { justify-self: start; margin-top: 7px; }
+.deliberation-share-card .share-card-remove-photo,.deliberation-share-card .share-card-google-start { justify-self: start; min-height: 44px; padding: 5px 0; border: 0; background: transparent; color: var(--ink); font-size: 12px; font-weight: 700; text-decoration: underline; text-underline-offset: 5px; }
+.deliberation-share-card .share-card-google-start { margin-top: 9px; }
 .deliberation-share-card .share-card-start,
 .deliberation-share-card .share-card-download,
 .deliberation-share-card .share-card-share { display: inline-flex; justify-content: center; align-items: center; gap: 15px; min-height: 48px; padding: 11px 20px; border: 2px solid var(--ink); border-radius: 999px; color: var(--ink); background: var(--teal); box-shadow: 4px 4px 0 var(--pink); font-size: 14px; font-weight: 800; line-height: 1.5; text-align: center; transition: transform .18s ease, box-shadow .18s ease; }
@@ -35,7 +48,7 @@
 .deliberation-share-card button:disabled { cursor: not-allowed; opacity: .55; box-shadow: none; }
 .deliberation-share-card .share-card-google { width: min(100%, 320px); min-height: 44px; }
 .deliberation-share-card .share-card-google[hidden] { display: none; }
-.deliberation-share-card .share-card-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+.deliberation-share-card .share-card-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; margin-top: 20px; }
 .deliberation-share-card .share-card-share { background: #fff; }
 .deliberation-share-card .share-card-reset { display: block; margin-top: 19px; min-height: 44px; padding: 4px 0; border: 0; background: transparent; color: var(--ink); font-size: 12px; font-weight: 700; text-decoration: underline; text-underline-offset: 5px; }
 .deliberation-share-card .share-card-feedback { min-height: 2em; margin-top: 12px; font-size: 13px; line-height: 1.8; font-weight: 600; }

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import NextImage from 'next/image';
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
 import { SHARE_CARD_QR_LABEL, SHARE_CARD_SITE_LABEL, SHARE_CARD_SITE_URL } from '../data/share-card';
 import './deliberation-share-card.css';
 
@@ -12,6 +12,8 @@ const CARD_FONT = '"Noto Sans TC Variable", "PingFang TC", "Microsoft JhengHei",
 const INK = '#153F3B';
 const TEAL = '#28C8C8';
 const PINK = '#F6B1AA';
+const PHOTO_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const MAX_PHOTO_BYTES = 10 * 1024 * 1024;
 
 type Profile = { name: string; avatar: string | null };
 type Phase = 'idle' | 'loading-google' | 'google-ready' | 'verifying' | 'rendering' | 'ready' | 'error';
@@ -92,6 +94,37 @@ function graphemes(text: string): string[] {
   return typeof Intl.Segmenter === 'function'
     ? Array.from(new Intl.Segmenter('zh-Hant', { granularity: 'grapheme' }).segment(text), part => part.segment)
     : Array.from(text);
+}
+
+async function localAvatar(file: File, signal: AbortSignal): Promise<string> {
+  if (!PHOTO_TYPES.includes(file.type) || !file.size || file.size > MAX_PHOTO_BYTES) throw new Error('請選擇 10 MB 以內的 JPG、PNG 或 WebP 照片。');
+  const header = new Uint8Array(await awaitActive(file.slice(0, 12).arrayBuffer(), signal));
+  const matchesType = file.type === 'image/jpeg' ? header[0] === 0xff && header[1] === 0xd8 && header[2] === 0xff
+    : file.type === 'image/png' ? [137,80,78,71,13,10,26,10].every((byte, index) => header[index] === byte)
+    : String.fromCharCode(...header.slice(0, 4)) === 'RIFF' && String.fromCharCode(...header.slice(8, 12)) === 'WEBP';
+  if (!matchesType) throw new Error('照片無法讀取，請改選 JPG、PNG 或 WebP 照片。');
+  const source = URL.createObjectURL(file);
+  let image: HTMLImageElement | null = null;
+  const canvas = document.createElement('canvas');
+  try {
+    image = await loadImage(source, signal);
+    if (signal.aborted) throw aborted();
+    if (image.naturalWidth * image.naturalHeight > 50_000_000) throw new Error('照片尺寸太大，請選擇較小的照片。');
+    canvas.width = 256; canvas.height = 256;
+    const context = canvas.getContext('2d');
+    if (!context) throw new Error('這個瀏覽器無法處理照片。');
+    const side = Math.min(image.naturalWidth, image.naturalHeight);
+    context.fillStyle = '#FFFFFF'; context.fillRect(0, 0, 256, 256);
+    context.drawImage(image, (image.naturalWidth - side) / 2, (image.naturalHeight - side) / 2, side, side, 0, 0, 256, 256);
+    return canvas.toDataURL('image/jpeg', .9);
+  } catch (error) {
+    if (signal.aborted) throw aborted();
+    if (error instanceof Error && error.message === '照片尺寸太大，請選擇較小的照片。') throw error;
+    throw new Error('照片無法讀取，請改選 JPG、PNG 或 WebP 照片。');
+  } finally {
+    image?.removeAttribute('src'); URL.revokeObjectURL(source);
+    canvas.width = 0; canvas.height = 0;
+  }
 }
 
 function wrapText(context: CanvasRenderingContext2D, text: string, width: number): string[] {
@@ -212,8 +245,13 @@ async function createCard(profile: Profile, signal: AbortSignal): Promise<Blob> 
   }
 }
 
-export default function DeliberationShareCard({ googleClientId, siteQrDataUrl }: { googleClientId: string; siteQrDataUrl: string }) {
+export default function DeliberationShareCard({ googleClientId, googleEnabled = false, siteQrDataUrl }: { googleClientId: string; googleEnabled?: boolean; siteQrDataUrl: string }) {
   const titleId = useId();
+  const nameId = useId();
+  const photoId = useId();
+  const [name, setName] = useState('');
+  const [photoName, setPhotoName] = useState('');
+  const [photoError, setPhotoError] = useState('');
   const [phase, setPhase] = useState<Phase>('idle');
   const [preview, setPreview] = useState<string | null>(null);
   const [feedback, setFeedback] = useState('');
@@ -227,8 +265,10 @@ export default function DeliberationShareCard({ googleClientId, siteQrDataUrl }:
   const imageUrl = useRef<string | null>(null);
   const identity = useRef<GoogleIdentity | null>(null);
   const googleButton = useRef<HTMLDivElement>(null);
+  const photoInput = useRef<HTMLInputElement>(null);
+  const photo = useRef<File | null>(null);
   const verifying = useRef(false);
-  const configured = Boolean(googleClientId.trim());
+  const configured = googleEnabled && Boolean(googleClientId.trim());
   const busy = phase === 'loading-google' || phase === 'verifying' || phase === 'rendering';
   const current = (attempt: number) => alive.current && generation.current === attempt;
   const releaseImage = () => {
@@ -238,11 +278,14 @@ export default function DeliberationShareCard({ googleClientId, siteQrDataUrl }:
 
   useEffect(() => {
     alive.current = true;
+    const clearOnPageHide = () => { reset(); };
+    window.addEventListener('pagehide', clearOnPageHide);
     return () => {
+      window.removeEventListener('pagehide', clearOnPageHide);
       alive.current = false; generation.current++;
       request.current?.abort(); request.current = null;
       identity.current?.disableAutoSelect(); identity.current = null;
-      profile.current = null; verifying.current = false;
+      profile.current = null; photo.current = null; verifying.current = false;
       releaseImage();
     };
   }, []);
@@ -304,12 +347,7 @@ export default function DeliberationShareCard({ googleClientId, siteQrDataUrl }:
     request.current?.abort();
     const controller = new AbortController(); request.current = controller;
     verifying.current = false; setFeedback(''); setManualCopy(false);
-    if (profile.current) {
-      setPhase('rendering'); setFeedback('正在重新製作小卡…');
-      try { await build(profile.current, attempt, controller.signal); }
-      catch { if (current(attempt) && !controller.signal.aborted) { setPhase('error'); setFeedback('小卡製作暫時未完成，請稍後再試。'); } }
-      return;
-    }
+    profile.current = null; releaseImage(); setPreview(null);
     setPhase('loading-google'); setFeedback('正在準備 Google 登入…');
     try {
       const [google, response] = await Promise.all([
@@ -329,11 +367,47 @@ export default function DeliberationShareCard({ googleClientId, siteQrDataUrl }:
     }
   };
 
-  const reset = () => {
+  const invalidateDraft = () => {
     generation.current++; request.current?.abort(); request.current = null;
     identity.current?.disableAutoSelect(); identity.current = null;
     googleButton.current?.replaceChildren(); profile.current = null; verifying.current = false;
-    releaseImage(); setPreview(null); setPhase('idle'); setSharing(false); setManualCopy(false);
+    releaseImage(); setPreview(null); setPhase('idle'); setSharing(false); setManualCopy(false); setFeedback('');
+  };
+
+  const choosePhoto = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.currentTarget.files?.[0];
+    if (!file) return;
+    invalidateDraft(); photo.current = null; setPhotoName(''); setPhotoError('');
+    if (!PHOTO_TYPES.includes(file.type) || !file.size || file.size > MAX_PHOTO_BYTES) {
+      event.currentTarget.value = ''; setPhotoError('請選擇 10 MB 以內的 JPG、PNG 或 WebP 照片。'); return;
+    }
+    photo.current = file; setPhotoName(file.name);
+  };
+
+  const createLocalCard = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (busy || sharing || photoError) return;
+    const cleanName = name.replace(/[\u0000-\u001f\u007f-\u009f]/g, '').replace(/\s+/g, ' ').trim();
+    if (!cleanName) { setFeedback('請先填寫你想顯示的稱呼。'); return; }
+    const attempt = ++generation.current;
+    request.current?.abort(); const controller = new AbortController(); request.current = controller;
+    identity.current?.disableAutoSelect(); identity.current = null; googleButton.current?.replaceChildren();
+    profile.current = null; verifying.current = false; releaseImage(); setPreview(null); setManualCopy(false);
+    setPhase('rendering'); setFeedback('正在製作你的中和小卡…');
+    try {
+      const avatar = photo.current ? await localAvatar(photo.current, controller.signal) : null;
+      if (!current(attempt) || controller.signal.aborted) return;
+      const person = { name: cleanName, avatar }; profile.current = person;
+      await build(person, attempt, controller.signal);
+    } catch (error) {
+      if (!current(attempt) || controller.signal.aborted) return;
+      setPhase('error'); setFeedback(error instanceof Error && error.message.startsWith('照片') ? error.message : '小卡製作暫時未完成，請再試一次。');
+    }
+  };
+
+  const reset = () => {
+    invalidateDraft(); photo.current = null; setName(''); setPhotoName(''); setPhotoError('');
+    if (photoInput.current) photoInput.current.value = '';
     setFeedback('已清除此頁的小卡與個人資料。');
   };
 
@@ -374,15 +448,23 @@ export default function DeliberationShareCard({ googleClientId, siteQrDataUrl }:
         <div className="share-card-copy">
           <p className="share-card-eyebrow">一張小卡，連結中和日常</p>
           <h2 id={titleId} className="share-card-title">你的中和小卡，<br />分享日常的關心。</h2>
-          <p className="share-card-intro">用 Google 姓名與頭像製作中和小卡。小卡附有本站 QR Code，掃描就能認識怡君。</p>
-          <p className="share-card-privacy">資料只用於本頁製卡，不會連結你的議題表態。下載與分享由你決定，Google 登入與議題參與分開。<Link href="/privacy/#google-share">了解資料處理方式</Link></p>
+          <p className="share-card-intro">填上稱呼、選一張照片，就能製作你的中和小卡。不必登入，小卡也附有本站 QR Code。</p>
+          <p className="share-card-privacy">稱呼與照片只在你的瀏覽器內製卡，不會上傳，也不會連結議題表態。下載與分享由你決定。<Link href="/privacy/#local-share">了解資料處理方式</Link></p>
           <div className="share-card-controls" aria-busy={busy}>
-            {!configured && <p className="share-card-unconfigured">Google 製卡尚未設定，暫時無法製作個人小卡。</p>}
-            {(phase === 'idle' || phase === 'error' || busy) && (
-              <button type="button" className="share-card-start" onClick={() => { void start(); }} disabled={!configured || busy}>
-                {busy ? '正在準備…' : profile.current ? '重新製作小卡' : phase === 'error' ? '重新準備 Google 登入' : '用 Google 製作小卡'}
-              </button>
-            )}
+            <form className="share-card-form" onSubmit={event => { void createLocalCard(event); }}>
+              <fieldset disabled={busy || sharing}>
+                <legend className="sr-only">你的製卡資料</legend>
+                <label htmlFor={nameId}>你想顯示的稱呼</label>
+                <input id={nameId} type="text" value={name} required maxLength={40} autoComplete="off" placeholder="例如：中和好鄰居" onChange={event => { invalidateDraft(); setName(event.currentTarget.value); }} />
+                <label htmlFor={photoId}>選擇照片 <span>（選填）</span></label>
+                <input ref={photoInput} id={photoId} type="file" accept="image/jpeg,image/png,image/webp" aria-describedby={`${photoId}-help${photoError ? ` ${photoId}-error` : ''}`} aria-invalid={Boolean(photoError)} onChange={choosePhoto} />
+                <p id={`${photoId}-help`} className="share-card-photo-help">JPG、PNG 或 WebP，10 MB 以內。照片會置中裁成圓形；不選照片也能製作。</p>
+                {photoError && <p id={`${photoId}-error`} className="share-card-photo-error" role="alert">{photoError}</p>}
+                {(photoName || photoError) && <button className="share-card-remove-photo" type="button" onClick={() => { invalidateDraft(); photo.current = null; setPhotoName(''); setPhotoError(''); if (photoInput.current) photoInput.current.value = ''; }}>不使用照片</button>}
+                <button type="submit" className="share-card-start" disabled={busy || sharing || Boolean(photoError)}>{busy ? '正在準備…' : preview ? '重新製作小卡' : '製作我的小卡'} <span aria-hidden="true">↗</span></button>
+              </fieldset>
+            </form>
+            {configured ? (phase !== 'google-ready' && <button type="button" className="share-card-google-start" onClick={() => { void start(); }} disabled={busy || sharing}>用 Google 帶入姓名與頭像</button>) : <p className="share-card-unconfigured">Google 帶入功能維護中，填寫上方資料就能製卡。</p>}
             <div ref={googleButton} className="share-card-google" hidden={phase !== 'google-ready'} />
             {preview && phase === 'ready' && (
               <div className="share-card-actions">
@@ -390,24 +472,24 @@ export default function DeliberationShareCard({ googleClientId, siteQrDataUrl }:
                 <button type="button" className="share-card-share" onClick={() => { void share(); }} disabled={sharing}>{sharing ? '開啟分享中…' : '分享小卡'} <span aria-hidden="true">↗</span></button>
               </div>
             )}
-            {phase !== 'idle' && <button type="button" className="share-card-reset" onClick={reset}>清除小卡資料</button>}
+            {(phase !== 'idle' || name || photoName || photoError) && <button type="button" className="share-card-reset" onClick={reset}>清除小卡資料</button>}
           </div>
           <p className="share-card-feedback" role="status" aria-live="polite">{feedback}</p>
           {manualCopy && <label className="share-card-manual-copy">討論網址<input type="text" value={DISCUSSION_URL} readOnly onFocus={event => event.currentTarget.select()} /></label>}
-          <p className="share-card-note">小卡不包含你的表態選擇，也沒有公開個人網址。清除此頁資料不會登出你的 Google 帳號。</p>
+          <p className="share-card-note">小卡不包含你的表態選擇，也沒有公開個人網址。清除資料或離開此頁後，不會保留稱呼與照片。</p>
           <noscript><p className="share-card-note">製作小卡需要 JavaScript；你仍可閱讀議題與資料處理說明。</p></noscript>
         </div>
         <figure className="share-card-preview">
-          {preview ? <img src={preview} width="1080" height="1350" alt="你的個人分享小卡：我關心中和的日常。中和的下一步，怡起聊聊。包含你的姓名、頭像與本站首頁 QR Code。" /> : (
+          {preview ? <img src={preview} width="1080" height="1350" alt="你的個人分享小卡：我關心中和的日常。中和的下一步，怡起聊聊。包含你的稱呼、頭像與本站首頁 QR Code。" /> : (
             <div className="share-card-demo" aria-label="分享小卡版型示意，尚未加入個人姓名與頭像">
               <span className="share-card-demo-kicker">中和公共議題</span>
               <p className="share-card-demo-title">我關心<br />中和的日常</p>
-              <p className="share-card-demo-person">登入後，加入<br />你的姓名與頭像</p>
+              <p className="share-card-demo-person">填上稱呼，加入<br />你的生活日常</p>
               <p className="share-card-demo-message">中和的下一步，<br />怡起聊聊。</p>
               <div className="share-card-demo-footer"><div className="share-card-demo-brand"><NextImage src="/images/sunny-logo-v1.png" alt="陳怡君 Sunny Chen" width={2172} height={724} sizes="(max-width:700px) 160px, 195px" loading="lazy" /><span>{SHARE_CARD_SITE_LABEL}</span></div><div className="share-card-demo-qr"><img src={siteQrDataUrl} width="264" height="264" alt={`本站首頁 QR Code：${SHARE_CARD_SITE_URL}`} /><span>{SHARE_CARD_QR_LABEL}</span></div></div>
             </div>
           )}
-          <figcaption>{preview ? '個人小卡預覽 · PNG 1080 × 1350' : '製卡示意 · 登入前不含個人資料'}</figcaption>
+          <figcaption>{preview ? '個人小卡預覽 · PNG 1080 × 1350' : '製卡示意 · 尚未加入個人資料'}</figcaption>
         </figure>
       </div>
     </section>

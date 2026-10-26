@@ -24,4 +24,5 @@ export const deliberationConfig = {
   apiBase: process.env.NEXT_PUBLIC_POLIS_API_URL ?? '',
   conversationId: process.env.NEXT_PUBLIC_POLIS_CONVERSATION_ID ?? '',
   googleClientId: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? '',
+  googleShareEnabled: process.env.NEXT_PUBLIC_GOOGLE_SHARE_ENABLED === 'true',
 };

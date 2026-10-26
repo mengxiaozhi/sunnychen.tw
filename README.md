@@ -49,7 +49,7 @@ npm run start
 - `src/app/story/page.tsx`：完整故事與書頁圖庫。
 - `src/app/deliberation/page.tsx`：中和公共議題的說明、參與入口與該頁 SEO 資料。
 - `src/data/deliberation.ts`：議題文案、主持人準備的起始觀點與公開部署設定；`src/lib/polis.ts` 負責 REST 介接及每場討論的匿名識別碼。
-- `src/components/DeliberationShareCard.tsx`：自選 Google 登入、瀏覽器製卡、下載與分享；`src/app/api/share-card/google/` 與 `src/lib/google-share.server.ts` 負責一次性 nonce 與 Google 官方憑證驗證。
+- `src/components/DeliberationShareCard.tsx`：免登入填寫稱呼、選取本機照片、瀏覽器製卡、下載與分享；保留可另行啟用的 Google 製卡。`src/app/api/share-card/google/` 與 `src/lib/google-share.server.ts` 負責一次性 nonce 與 Google 官方憑證驗證。
 - `services/polis/`：Pocket Polis 審議服務與 Cloudflare 部署設定；保留上游授權及服務本身的依賴文件。
 - `src/app/layout.tsx`：共用導覽、頁尾及 SEO 資料。
 - `src/styles/global.css`：色彩、字型與共用樣式；各頁 CSS 有頁面範圍，避免換頁後樣式互相影響。
@@ -80,24 +80,27 @@ npm run start
 | `NEXT_PUBLIC_POLIS_API_URL` | 本站專用 Pocket Polis Worker API 網址 |
 | `NEXT_PUBLIC_POLIS_CONVERSATION_ID` | 本場討論的識別碼 |
 | `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Google Identity Services Web 用戶端 ID |
+| `NEXT_PUBLIC_GOOGLE_SHARE_ENABLED` | 預設停用 Google 入口；僅明確設為 `true` 且已提供 Client ID 時才開放 |
 
 這些值會提供給瀏覽器，不得放入管理 token 或私密憑證。審議 Worker 的允許來源必須包含實際前端來源；建置時更換公開設定後，需重新建置網站。
 
 瀏覽器產生的隨機 UUID 存在 `localStorage`，只用於匿名表態與提案。Cloudflare Durable Objects 儲存參與識別碼（`pid`）、觀點識別碼（`sid`）、表態值（`value`）、時間與提案等紀錄。`autoApprove=false` 讓新觀點先經審核才公開；`openData=false` 不公開逐筆表態，頁面讀取公開統計與分群。不要將不具名參與描述為完全匿名，也不要把匿名識別數直接稱為經身分驗證的人數。
 
-Google 登入是製作分享小卡的自選功能，使用 Google Identity Services 官方登入流程及本站驗證 API；不登入也能參與議題。Google 登入憑證須由伺服器驗證，製卡只使用姓名與頭像，保留於頁面記憶體，不寫入 `localStorage` 或匿名表態資料庫，不與 `pid` 綁定。小卡在瀏覽器產生，由使用者主動下載或分享，沒有公開個人分享網址。Google 用戶端與允許來源須依實際部署網域設定；更換用戶端時，同步核對前端設定與伺服器憑證驗證設定。
+製作分享小卡不需要登入。使用者可以手動填寫稱呼，並自選 10 MB 以內的 JPEG、PNG 或 WebP 本機照片；瀏覽器將照片置中裁成 256 × 256 像素縮圖，再以圓形頭像合成小卡；超過 5,000 萬像素的照片會提示改選較小圖片。稱呼、原始照片及處理後的頭像只保留於頁面記憶體，不上傳至本站伺服器或審議服務、不寫入 `localStorage`，也不與匿名 `pid` 或表態紀錄綁定。初始畫面是中性版型示意，不放入假姓名或假頭像，不表示已取得個人資料。
 
-只有點擊「用 Google 製作小卡」後才載入 GIS 並取得 nonce，以 Google 官方按鈕開始登入，不啟動 One Tap。nonce Cookie 最長 10 分鐘、HttpOnly、SameSite=Strict；伺服器使用 `google-auth-library` 驗證簽章、`aud`／`iss`／`exp` 及 nonce，驗證處理後清除 Cookie，不建立個人資料 session。API 僅回傳姓名及已驗證頭像的 data URL，不回傳 `sub`、email 或 token。
+Google 製卡目前維護中，原 Google Identity Services 流程及驗證 API 保留，但預設不顯示 Google 入口。來源設定修復並完成真實登入驗收後，才將 `NEXT_PUBLIC_GOOGLE_SHARE_ENABLED=true`，同時提供有效的 `NEXT_PUBLIC_GOOGLE_CLIENT_ID` 並重新建置；單獨填入 Client ID 不會開放入口。Google 用戶端與允許來源須依實際部署網域設定；更換用戶端時，同步核對前端設定與伺服器憑證驗證設定。維護完成時也要同步更新隱私頁的功能狀態。Google 登入日後仍是自選製卡方式，不是製卡或參與議題的必要條件。
+
+Google 入口啟用後，只有點擊「用 Google 帶入姓名與頭像」才載入 GIS 並取得 nonce，以 Google 官方按鈕開始登入，不啟動 One Tap。nonce Cookie 最長 10 分鐘、HttpOnly、SameSite=Strict；伺服器使用 `google-auth-library` 驗證簽章、`aud`／`iss`／`exp` 及 nonce，驗證處理後清除 Cookie，不建立個人資料 session。API 僅回傳姓名及已驗證頭像的 data URL，不回傳 `sub`、email 或 token。姓名與頭像只保留於頁面記憶體，不寫入 `localStorage` 或匿名表態資料庫，不與 `pid` 綁定。
 
 中和小卡是首頁 Hero 與公共議題頁的主要入口，公共議題頁將製卡區置於介紹之後、議題內容之前。首頁仍保留故事與 Facebook 入口，議題頁仍可直接前往參與區。
 
 小卡為 1080 × 1350 PNG，不包含表態選擇或虛構參與結果。畫面示意與下載卡皆以 `qrcode` 產生指向本站首頁 `https://sunnychen.tw/` 的 QR Code，並顯示同一首頁網域；網址、標籤與製卡入口統一維護於 `src/data/share-card.ts`。示意 QR 由 Server Component 產生並隨 HTML 顯示，不必登入或等候瀏覽器製卡；下載卡在瀏覽器使用相同網址常數產生 QR。分享按鈕與複製備援仍可帶入公開討論網址，與圖片上的首頁 QR 用途分開。
 
-清除小卡或離開頁面時會清理頁面中的個人資料、未完成請求及 Blob URL；這不會登出使用者原有的 Google 帳號。支援時使用 Web Share Files，否則改為複製討論網址；自動複製失敗時顯示可手動複製的網址，不宣稱已發文。
+選擇「清除小卡資料」或離開頁面時會清理手動輸入／Google 提供的個人資料、未完成請求、製卡資源及 Blob URL；這不會刪除已下載或分享的副本，也不會登出使用者原有的 Google 帳號。小卡在瀏覽器產生，由使用者主動下載或分享，沒有公開個人分享網址。支援時使用 Web Share Files，否則改為複製討論網址；自動複製失敗時顯示可手動複製的網址，不宣稱已發文。
 
-Cloudflare AI 摘要若啟用，只處理已核准公開的觀點與統計，依服務程式設定的配額限制執行，不傳送 Google 姓名、頭像或登入身分。變更審核、開放資料、AI 或資料保存行為時，應同步更新 `src/app/privacy/page.tsx`；不要將 token、個人資料、管理憑證或審議原始資料提交至原始碼庫。Next.js 網站與 Cloudflare 審議服務是分開的部署邊界，前端建置成功不代表後端服務、Google 設定或 AI 已可用。
+Cloudflare AI 摘要若啟用，只處理已核准公開的觀點與統計，依服務程式設定的配額限制執行，不傳送製卡稱呼、照片、Google 姓名、頭像或登入身分。變更審核、開放資料、AI 或資料保存行為時，應同步更新 `src/app/privacy/page.tsx`；不要將 token、個人資料、管理憑證或審議原始資料提交至原始碼庫。Next.js 網站與 Cloudflare 審議服務是分開的部署邊界，前端建置成功不代表後端服務、Google 設定或 AI 已可用。
 
-Pocket Polis 上游基準為 `836ba19ffa93037555b22f2fd48645678255ab03`，其 MIT 原文與 notice 見 [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)。參與者觀點、Google 姓名與頭像不因網站開源而取得 MIT 或 CC BY-SA 4.0 再利用授權，詳見 [ASSETS.md](./ASSETS.md)。
+Pocket Polis 上游基準為 `836ba19ffa93037555b22f2fd48645678255ab03`，其 MIT 原文與 notice 見 [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)。參與者觀點、使用者填寫的稱呼與自選照片、Google 姓名與頭像不因網站開源而取得 MIT 或 CC BY-SA 4.0 再利用授權，素材權利邊界另見 [ASSETS.md](./ASSETS.md)。
 
 ## 動畫
 
@@ -127,7 +130,7 @@ GSAP 與 ScrollTrigger 由 npm 安裝並由本站提供，首頁與故事頁採�
 
 各頁提供可直接讀取的靜態 HTML、標題與描述，並設定 canonical、Open Graph、Twitter 分享資料及 JSON-LD 結構化資料。搜尋引擎入口為 `public/robots.txt` 與 `public/sitemap.xml`；新增或移除公開頁面時，請同步維護 sitemap。主要網域變更時，也須同步調整 `next.config.ts`、共用版型及各頁 Metadata 及上述搜尋設定。
 
-公共議題頁使用正式網址 `https://sunnychen.tw/deliberation/`，已列入 sitemap；公開社群預覽使用 `public/images/deliberation-share.png`（1200 × 630）。維護該頁的議題標題與背景時，同步更新其 title、description、canonical、Open Graph、Twitter 與 `WebPage` JSON-LD，避免沿用首頁標題。Google 姓名、頭像、匿名 `pid` 與個人小卡不得放入公開分享網址、分享 Metadata、JSON-LD 或 sitemap；本機產生的小卡沒有可索引的個人頁面。個人小卡與公開議題的社群預覽圖是不同用途。
+公共議題頁使用正式網址 `https://sunnychen.tw/deliberation/`，已列入 sitemap；公開社群預覽使用 `public/images/deliberation-share.png`（1200 × 630）。維護該頁的議題標題與背景時，同步更新其 title、description、canonical、Open Graph、Twitter 與 `WebPage` JSON-LD，避免沿用首頁標題。手動填寫的稱呼、自選照片、Google 姓名與頭像、匿名 `pid` 與個人小卡不得放入公開分享網址、分享 Metadata、JSON-LD 或 sitemap；本機產生的小卡沒有可索引的個人頁面。個人小卡與公開議題的社群預覽圖是不同用途。
 
 ## 圖片與文字來源
 

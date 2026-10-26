@@ -4,7 +4,7 @@ import { deliberationConfig } from '../data/deliberation';
 
 const verifier = new OAuth2Client();
 export const shareClientId = deliberationConfig.googleClientId;
-export const shareClientConfigured = /^[A-Za-z0-9-]+\.apps\.googleusercontent\.com$/.test(shareClientId);
+export const shareClientConfigured = deliberationConfig.googleShareEnabled && /^[A-Za-z0-9-]+\.apps\.googleusercontent\.com$/.test(shareClientId);
 export const nonceName = (url: string) => new URL(url).protocol === 'https:' ? '__Host-sunny-share-nonce' : 'sunny-share-nonce';
 export const newNonce = () => randomBytes(32).toString('hex');
 
