@@ -34,6 +34,7 @@ export default function SiteFooter() {
           <a href="https://github.com/mengxiaozhi/sunnychen.tw" target="_blank" rel="noopener noreferrer">GitHub 開放原始碼 <span aria-hidden="true">↗</span></a>
           <Link href="/license/">開源與授權書</Link>
           <Link href="/privacy/">隱私權說明</Link>
+          <Link href="/deliberation/">公共議題</Link>
         </nav>
       </div>
     </footer>

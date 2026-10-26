@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pocket Polis — a pocket tool for deliberation, anytime</title>
+  <meta name="description" content="Pocket Polis is a lightweight Polis designed and built by AI agents: people share views and vote on each other's, while a live opinion map shows where the group splits — and where it agrees. Start in one step; no sign-ups, no website to run.">
+  <meta property="og:title" content="Pocket Polis — a pocket tool for deliberation, anytime">
+  <meta property="og:description" content="A lightweight Polis designed by AI agents: opinion map, automatic clustering, cross-group consensus. Start in one step.">
+  <meta property="og:url" content="https://polis.mashbean.net/en">
+  <meta property="og:image" content="https://polis.mashbean.net/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+<main>
+  <nav class="site-nav">
+    <a class="wordmark" href="/en"><img src="/logo.png" alt="Pocket Polis logo">Pocket Polis</a>
+    <a href="/explore?lang=en">Community topics</a>
+    <a href="/en/guide">Facilitator guide</a>
+    <a href="/r/qx7fc5m3ql?lang=en">Demo</a>
+    <a href="#self-host">Host your own</a>
+    <a class="lang" href="/">中文</a>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <h1>Deliberation,<br><span class="grad-text">in your pocket</span></h1>
+      <p class="tagline">A pocket tool for starting deliberation, anytime.</p>
+      <p class="lede">A lightweight <a href="https://compdemocracy.org/polis/">Polis</a> your AI agent can set up from a single prompt, with no servers to worry about (thanks, Cloudflare). It gathers everyone's views and maps them instantly. One click to start.</p>
+      <div class="actions hero-actions">
+        <a class="button primary" href="#create">Start in one step</a>
+        <a class="button" href="/explore?lang=en">Browse community topics</a>
+        <a class="button" href="/r/qx7fc5m3ql?lang=en">See the demo</a>
+      </div>
+      <div class="check-row">
+        <span>No sign-ups</span>
+        <span>Anonymous, no tracking</span>
+        <span>Open source (MIT)</span>
+        <span>Your data is exportable</span>
+      </div>
+    </div>
+    <div class="hero-figure" aria-hidden="true">
+      <svg viewBox="0 0 380 330" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="1" width="378" height="328" rx="16" fill="var(--surface)" stroke="var(--border)"/>
+        <rect x="1" y="1" width="378" height="34" rx="16" fill="var(--surface-2)"/>
+        <rect x="1" y="19" width="378" height="16" fill="var(--surface-2)"/>
+        <circle cx="22" cy="18" r="4" fill="#f87171"/><circle cx="38" cy="18" r="4" fill="#fbbf24"/><circle cx="54" cy="18" r="4" fill="#34d399"/>
+        <rect x="120" y="10" width="140" height="16" rx="8" fill="var(--bg)" stroke="var(--border)"/>
+        <text x="190" y="22" text-anchor="middle" font-size="9" fill="var(--muted)">polis.mashbean.net</text>
+        <defs>
+          <filter id="mock-blur" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="8"/>
+          </filter>
+        </defs>
+        <line x1="190" y1="46" x2="190" y2="248" stroke="var(--border)" stroke-width="1"/>
+        <line x1="18" y1="150" x2="362" y2="150" stroke="var(--border)" stroke-width="1"/>
+        <path d="M 54 150 Q 52 94 102 90 Q 150 88 152 142 Q 156 200 106 212 Q 58 214 54 150 Z"
+          fill="var(--group-1)" fill-opacity="0.14" filter="url(#mock-blur)"/>
+        <path d="M 224 148 Q 226 86 280 84 Q 334 86 336 146 Q 336 206 282 212 Q 226 210 224 148 Z"
+          fill="var(--group-0)" fill-opacity="0.14" filter="url(#mock-blur)"/>
+        <g fill="var(--group-1)" stroke="var(--surface)" stroke-width="1.4">
+          <circle cx="78" cy="108" r="5"/><circle cx="112" cy="102" r="5"/><circle cx="64" cy="132" r="5"/>
+          <circle cx="92" cy="128" r="5"/><circle cx="126" cy="122" r="5"/><circle cx="72" cy="158" r="5"/>
+          <circle cx="104" cy="152" r="5"/><circle cx="134" cy="150" r="5"/><circle cx="84" cy="180" r="5"/>
+          <circle cx="116" cy="176" r="5"/><circle cx="70" cy="196" r="5"/><circle cx="100" cy="200" r="5"/>
+          <circle cx="128" cy="188" r="5"/>
+        </g>
+        <g fill="var(--group-0)" stroke="var(--surface)" stroke-width="1.4">
+          <circle cx="250" cy="100" r="5"/><circle cx="286" cy="94" r="5"/><circle cx="312" cy="108" r="5"/>
+          <circle cx="238" cy="126" r="5"/><circle cx="268" cy="120" r="5"/><circle cx="298" cy="124" r="5"/>
+          <circle cx="326" cy="138" r="5"/><circle cx="246" cy="150" r="5"/><circle cx="278" cy="146" r="5"/>
+          <circle cx="308" cy="154" r="5"/><circle cx="236" cy="176" r="5"/><circle cx="264" cy="172" r="5"/>
+          <circle cx="296" cy="178" r="5"/><circle cx="322" cy="168" r="5"/><circle cx="276" cy="198" r="5"/>
+        </g>
+        <rect x="61" y="52" width="78" height="21" rx="10.5" fill="var(--group-1)" fill-opacity="0.12"/>
+        <text x="100" y="66.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--group-1)">Group B · 39</text>
+        <rect x="239" y="52" width="78" height="21" rx="10.5" fill="var(--group-0)" fill-opacity="0.12"/>
+        <text x="278" y="66.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--group-0)">Group A · 47</text>
+        <rect x="151" y="98" width="34" height="17" rx="8.5" fill="var(--text)"/>
+        <text x="168" y="110" text-anchor="middle" font-size="10" font-weight="700" fill="var(--surface)">You</text>
+        <circle cx="168" cy="130" r="9" fill="none" stroke="var(--text)" stroke-opacity="0.3" stroke-width="1.5"/>
+        <circle cx="168" cy="130" r="5" fill="var(--text)" stroke="var(--surface)" stroke-width="2"/>
+        <rect x="36" y="266" width="308" height="44" rx="10" fill="var(--surface-2)" stroke="var(--border)"/>
+        <text x="52" y="284" font-size="10" fill="var(--muted)">Common ground</text>
+        <text x="52" y="300" font-size="11" fill="var(--text)">Announce big decisions a week ahead</text>
+        <rect x="266" y="278" width="64" height="20" rx="10" fill="var(--agree)" fill-opacity="0.12" stroke="var(--agree)"/>
+        <text x="298" y="292" text-anchor="middle" font-size="10" font-weight="700" fill="var(--agree)">83% agree</text>
+      </svg>
+    </div>
+  </div>
+
+  <h2>When to use it</h2>
+  <div class="cards-3">
+    <div class="card">
+      <h3>Community decisions</h3>
+      <p>Clubs, schools, neighborhoods, co-ops: "what should we focus on next year?" See the landscape of views before any vote.</p>
+    </div>
+    <div class="card">
+      <h3>Before a meeting</h3>
+      <p>Surface the disagreements and the common ground in advance, so meeting time goes to what actually divides people.</p>
+    </div>
+    <div class="card">
+      <h3>Live workshops</h3>
+      <p>20–50 people scan a QR code and vote; fifteen minutes later you're reading the opinion map together.</p>
+    </div>
+  </div>
+
+  <h2>How a round works</h2>
+  <ol class="steps">
+    <li><div><strong>Prepare</strong>: pick an open question and write 8–15 "seed statements" (one idea each, something people can agree or disagree with).</div></li>
+    <li><div><strong>Share the link</strong>: participants vote without signing up, and can add their own statements at any time.</div></li>
+    <li><div><strong>Watch the map</strong>: the report updates live. Similar voters cluster together, and the system surfaces each group's most distinctive statements plus the <strong>statements every group agrees on</strong>.</div></li>
+    <li><div><strong>Wrap up</strong>: read the map together (consensus first, then the divides), and export the full anonymized CSV if you need it.</div></li>
+  </ol>
+  <p class="muted">Seed-writing tips, group sizes, facilitation flow: see the <a href="/en/guide">facilitator guide</a>.</p>
+
+  <h2>Demo: a simulated defense-budget referendum</h2>
+  <div class="card">
+    <p>113 <strong>fictional</strong> legislators (pseudonyms from Taiwanese wildlife and landscapes — no real names) were simulated according to Taiwan's actual party-seat structure. The map splits 60:53 along the "dialogue vs. deterrence" fault line — yet statements about <strong>transparency, oversight, and civil resilience</strong> reach broad cross-group consensus.</p>
+    <p class="muted">The conversation is open: your votes change the map in real time. Method notes in the <a href="https://github.com/mashbean/pocket-polis/blob/main/docs/demo-legislature-sim.md">case write-up</a>.</p>
+    <div class="actions">
+      <a class="button primary" href="/c/qx7fc5m3ql?lang=en">Join the voting</a>
+      <a class="button" href="/r/qx7fc5m3ql?lang=en">See the map &amp; consensus</a>
+    </div>
+  </div>
+
+  <h2 id="create">Start in one step</h2>
+  <p class="muted">You can use this public demo site directly (for your own site and data, see <a href="#self-host">Host your own</a>).</p>
+  <form id="create-form" class="card">
+    <label for="title">Topic</label>
+    <input type="text" id="title" name="title" maxlength="120" required placeholder="e.g., What should our community focus on next year?">
+
+    <label for="description">Description (optional)</label>
+    <textarea id="description" name="description" rows="3" maxlength="2000" placeholder="Background for participants"></textarea>
+
+    <label for="seeds">Seed statements (one per line, 8–15 recommended)</label>
+    <textarea id="seeds" name="seeds" rows="6" placeholder="e.g.,&#10;We should prioritize improving the onboarding experience.&#10;Online meetups work better for us than in-person ones."></textarea>
+
+    <p class="form-defaults">Default: participants can add statements and publish them immediately; anonymized data stays private.</p>
+    <details class="plain-box form-advanced">
+      <summary>Adjust moderation and data settings</summary>
+      <label class="checkbox-row"><input type="checkbox" id="auto-approve" checked> New statements publish immediately (untick to approve each one yourself)</label>
+      <label class="checkbox-row"><input type="checkbox" id="allow-submissions" checked> Participants can add statements</label>
+      <label class="checkbox-row"><input type="checkbox" id="open-data"> Public data export (anyone can download the anonymized votes, and this conversation is listed under <a href="/explore?lang=en">Community topics</a>)</label>
+    </details>
+
+    <div class="actions">
+      <button type="submit" class="primary" id="create-button">Create conversation</button>
+    </div>
+    <p id="create-error" class="error hidden"></p>
+  </form>
+
+  <section id="created" class="card hidden">
+    <h2>Conversation created</h2>
+    <p><strong>Participation link</strong> (share with everyone):</p>
+    <div class="link-row"><code id="participate-url"></code><button type="button" data-copy="participate-url">Copy</button></div>
+    <p><strong>Results page</strong> (live opinion map, public):</p>
+    <div class="link-row"><code id="report-url"></code><button type="button" data-copy="report-url">Copy</button></div>
+    <p><strong>Admin link</strong> (host only; <strong>cannot be recovered if lost</strong> — save it now):</p>
+    <div class="link-row"><code id="admin-url"></code><button type="button" data-copy="admin-url">Copy</button></div>
+    <p class="muted">The host key sits after the "#" in the URL and never reaches the server or any logs.</p>
+    <div class="actions">
+      <a id="admin-link" class="button primary" href="#">Open host controls</a>
+      <a id="participate-link" class="button" href="#">Vote first</a>
+    </div>
+  </section>
+
+  <h2 id="self-host">Host your own</h2>
+  <p>When you want your own URL and your own data, hand it to your AI assistant and it will be running on your own Cloudflare account within minutes. The <strong>free plan is enough</strong> for conversations with hundreds of participants, and your data stays in your account — fully downloadable at any time.</p>
+
+  <div class="card">
+    <h3>Hand it to your AI assistant</h3>
+    <ol class="steps-plain">
+      <li>No Cloudflare account yet? Sign up free at <a href="https://dash.cloudflare.com/sign-up">dash.cloudflare.com/sign-up</a> (email only).</li>
+      <li>Paste the prompt below to Claude Code, Cursor, or any coding assistant.</li>
+      <li>It will ask you to complete one browser login to Cloudflare — the only step you do yourself.</li>
+    </ol>
+    <pre id="agent-prompt">Follow https://github.com/mashbean/pocket-polis/blob/main/AGENT.md to deploy Pocket Polis to my Cloudflare account (I will complete the wrangler login step myself), then create my first conversation via the API.</pre>
+    <div class="actions">
+      <button type="button" data-copy="agent-prompt">Copy this prompt</button>
+      <a class="button" href="https://github.com/mashbean/pocket-polis/blob/main/AGENT.md">Read AGENT.md</a>
+    </div>
+    <details class="plain-box">
+      <summary>Prefer a terminal? Six commands</summary>
+      <pre id="manual-steps">git clone https://github.com/mashbean/pocket-polis.git
+cd pocket-polis
+npm install
+npx wrangler login
+npm run check
+npm run deploy</pre>
+      <div class="actions">
+        <button type="button" data-copy="manual-steps">Copy commands</button>
+      </div>
+    </details>
+  </div>
+
+  <h2>FAQ</h2>
+  <details class="faq">
+    <summary>Really no server?</summary>
+    <p>Really. "Serverless" means <strong>no machine you have to look after</strong> — no hosting to rent, no database to back up, nothing to reboot at 3am. The code runs on Cloudflare's cloud, works only when someone votes, and costs nothing at rest. The full technical discussion (including the alternatives we weighed) is in <a href="https://github.com/mashbean/pocket-polis/blob/main/docs/is-this-serverless.md">this document</a> (zh).</p>
+  </details>
+  <details class="faq">
+    <summary>Are participants identified?</summary>
+    <p>No. No registration, no email; the browser keeps only a random code to prevent double counting, and neither the report nor the exports contain any identity. Note: this lightweight approach can't stop determined ballot-stuffing — it suits communities, classrooms, and workshops with basic trust. For adversarial public consultations, use official pol.is.</p>
+  </details>
+  <details class="faq">
+    <summary>How many participants do I need?</summary>
+    <p>Groups appear from 4 participants (each voting past the threshold); the map stabilizes above ~20. The system is designed for hundreds to low thousands.</p>
+  </details>
+  <details class="faq">
+    <summary>How is this different from official pol.is?</summary>
+    <p>Official pol.is is a mature large-scale platform that needs an engineering team to self-host. Pocket Polis reimplements the same clustering method from the published literature — validated against official open datasets (group counts match; Adjusted Rand Index 0.78–0.86) — in exchange for one-step, free deployment. Not affiliated with The Computational Democracy Project.</p>
+  </details>
+  <details class="faq">
+    <summary>Where does the data live? Can I take it with me?</summary>
+    <p>In the deployer's own Cloudflare account, each conversation isolated. The host can download the full statement list and anonymized vote records as CSV at any time, or make the export public.</p>
+  </details>
+  <details class="faq">
+    <summary>What is listed under Community topics?</summary>
+    <p><a href="/explore?lang=en">Community topics</a> lists conversations on this public site whose creators ticked "Public data export". These topics were started by the people who use the site — <strong>they are not created, vetted, or endorsed by the site operator</strong> — and conversations that break the Code of Conduct are taken down. To stay off the list, leave that option unticked; unlisted conversations still work exactly the same when you share their link.</p>
+  </details>
+  <details class="faq">
+    <summary>Does the demo site have rules?</summary>
+    <p>Yes. Conversations involving harassment, hate speech, illegal content, personal-data exposure, or coordinated manipulation may be taken down — or removed from <a href="/explore?lang=en">Community topics</a> — by the site operator (mashbean); see the <a href="https://github.com/mashbean/pocket-polis/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a>. Self-hosted instances set their own rules.</p>
+  </details>
+  <details class="faq">
+    <summary>What is Pocket Polis MCP, and how do I use it?</summary>
+    <p>MCP lets AI assistants such as Codex and Claude connect directly to Pocket Polis. You do not need it to participate in or host an ordinary discussion. Add the MCP endpoint only when you want an AI assistant to create a conversation, read live results, or help synthesize them. The endpoint is not a web page, so do not open it in a browser.</p>
+    <pre id="mcp-quickstart-en"># Codex
+codex mcp add pocket-polis --url https://polis.mashbean.net/mcp
+
+# Claude Code
+claude mcp add --transport http pocket-polis https://polis.mashbean.net/mcp</pre>
+    <p>After this one-time setup, give the assistant a conversation URL or its 10-character ID and ask naturally — for example: “Summarize each group's positions, cross-group consensus, and major disagreements, citing statement IDs.” Reading the public results of a known conversation needs no token. Managing it or exporting private data requires that conversation's admin token. Self-hosters should replace the URL with their own domain. See the complete <a href="https://github.com/mashbean/pocket-polis/blob/main/docs/mcp.md">MCP tool and access guide</a>.</p>
+  </details>
+</main>
+<footer>
+  <div class="inner">
+    <p><a href="/explore?lang=en">Community topics</a> · <a href="/en/guide">Facilitator guide</a> · <a href="https://github.com/mashbean/pocket-polis">Source</a> (MIT) · <a href="https://github.com/mashbean/pocket-polis/blob/main/CODE_OF_CONDUCT.md">Code of Conduct</a> · <a href="/">中文</a><br>
+    Pocket Polis reimplements the clustering method from the published Polis literature; not affiliated with The Computational Democracy Project's pol.is. Validation data: compdemocracy openData (CC BY 4.0).</p>
+    <p class="credit">Created and maintained by <a href="https://github.com/mashbean">mashbean</a></p>
+  </div>
+</footer>
+<script type="module" src="/js/create.js"></script>
+</body>
+</html>

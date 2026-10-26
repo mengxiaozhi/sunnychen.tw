@@ -1,0 +1,62 @@
+{
+  "name": "@sunnychen/polis-service",
+  "version": "0.1.0",
+  "description": "Pocket Polis (口袋審議): a lightweight Polis, designed and deployable in one step by AI agents — a complete wikisurvey round on a single Cloudflare Worker, no server to host",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mashbean/pocket-polis.git"
+  },
+  "bugs": "https://github.com/mashbean/pocket-polis/issues",
+  "homepage": "https://polis.mashbean.net/",
+  "bin": {
+    "pocket-polis": "./scripts/cli.mjs"
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "mcp:backfill": "node scripts/backfill-mcp-registry.mjs",
+    "deploy": "node scripts/ensure-queue.mjs && wrangler deploy",
+    "deploy:production": "node scripts/ensure-queue.mjs production && wrangler deploy --env production",
+    "deploy:dry": "wrangler deploy --dry-run",
+    "typecheck": "tsc --noEmit",
+    "types": "wrangler types",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm test && npm run deploy:dry"
+  },
+  "devDependencies": {
+    "tsx": "4.23.15",
+    "typescript": "5.9.3",
+    "vitest": "5.0.5",
+    "wrangler": "4.152.0"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "cloudflare": {
+    "bindings": {
+      "ASSETS": {
+        "description": "Static participant, report and admin pages."
+      },
+      "CONVERSATION": {
+        "description": "One SQLite Durable Object per conversation (statements, votes, clustering)."
+      },
+      "NEURON_COORDINATOR": {
+        "description": "Durable Object coordinating background sensemaking jobs."
+      },
+      "SENSEMAKING_QUEUE": {
+        "description": "Queue for background clustering and summaries; created on first deploy."
+      },
+      "AI": {
+        "description": "Workers AI binding used for optional summaries."
+      },
+      "MCP_ADMIN_TOKEN": {
+        "description": "Optional secret: enables private enumeration and global administration over MCP. Leave empty unless you operate MCP clients."
+      }
+    }
+  },
+  "private": true,
+  "overrides": {
+    "undici": "7.30.1"
+  }
+}

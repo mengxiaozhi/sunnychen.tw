@@ -47,6 +47,10 @@ npm run start
 - `src/app/page.tsx`：首頁文案、社群連結、經歷與聯絡資訊。
 - `src/data/story.ts`：四章人生故事及原書頁索引。
 - `src/app/story/page.tsx`：完整故事與書頁圖庫。
+- `src/app/deliberation/page.tsx`：中和公共議題的說明、參與入口與該頁 SEO 資料。
+- `src/data/deliberation.ts`：議題文案、主持人準備的起始觀點與公開部署設定；`src/lib/polis.ts` 負責 REST 介接及每場討論的匿名識別碼。
+- `src/components/DeliberationShareCard.tsx`：自選 Google 登入、瀏覽器製卡、下載與分享；`src/app/api/share-card/google/` 與 `src/lib/google-share.server.ts` 負責一次性 nonce 與 Google 官方憑證驗證。
+- `services/polis/`：Pocket Polis 審議服務與 Cloudflare 部署設定；保留上游授權及服務本身的依賴文件。
 - `src/app/layout.tsx`：共用導覽、頁尾及 SEO 資料。
 - `src/styles/global.css`：色彩、字型與共用樣式；各頁 CSS 有頁面範圍，避免換頁後樣式互相影響。
 - `src/components/SiteHeader.tsx`：手機選單與共用導覽，包含「支持怡君」入口。
@@ -59,9 +63,37 @@ npm run start
 - `src/app/privacy/page.tsx`：隱私權說明。
 - `public/images/`：網站使用的照片與分享圖片。
 
-社群動態是人工整理的靜態內容與外部連結，沒有自動同步 Facebook。電話、電子信箱及服務據點地址取自已查證的公開粉絲專頁，異動時請同步更新首頁。本網站未加入分析追蹤工具，也沒有收集資料的表單。
+社群動態是人工整理的靜態內容與外部連結，沒有自動同步 Facebook。電話、電子信箱及服務據點地址取自已查證的公開粉絲專頁，異動時請同步更新首頁。本網站未加入廣告追蹤或第三方流量分析工具；公共議題的表態、提案與分享小卡另依下方資料邊界及隱私權說明處理。
 
 支持專區的線上捐款網址與六項帳戶資料依委託方提供內容設定。捐款按鈕另開外部網站，本站沒有付款表單；更新時修改 `src/components/SupportSection.tsx`，不在本文件重複維護銀行資料。
+
+## 公共議題與分享小卡
+
+`/deliberation/` 的第一場議題為「中和生活改善的優先順序」，採用 [Pocket Polis](https://github.com/mashbean/pocket-polis) 的審議服務。參與是自願的公共意見交流，並非正式投票，也不是具代表性的民調。頁面的人數、回應數、統計與分群應只取自實際服務回傳資料；沒有資料或載入失敗時，不以示範數字或虛構結果代替。
+
+`seedStatements` 是主持人準備的起始觀點，不是參與者投稿或表態統計。本專案沒有收錄或重播上游 demo 資料，也不以示範回應或參與者填入這場中和討論。
+
+公開環境設定由 `src/data/deliberation.ts` 讀取：
+
+| 設定鍵 | 用途 |
+| --- | --- |
+| `NEXT_PUBLIC_POLIS_API_URL` | 本站專用 Pocket Polis Worker API 網址 |
+| `NEXT_PUBLIC_POLIS_CONVERSATION_ID` | 本場討論的識別碼 |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | Google Identity Services Web 用戶端 ID |
+
+這些值會提供給瀏覽器，不得放入管理 token 或私密憑證。審議 Worker 的允許來源必須包含實際前端來源；建置時更換公開設定後，需重新建置網站。
+
+瀏覽器產生的隨機 UUID 存在 `localStorage`，只用於匿名表態與提案。Cloudflare Durable Objects 儲存參與識別碼（`pid`）、觀點識別碼（`sid`）、表態值（`value`）、時間與提案等紀錄。`autoApprove=false` 讓新觀點先經審核才公開；`openData=false` 不公開逐筆表態，頁面讀取公開統計與分群。不要將不具名參與描述為完全匿名，也不要把匿名識別數直接稱為經身分驗證的人數。
+
+Google 登入是製作分享小卡的自選功能，使用 Google Identity Services 官方登入流程及本站驗證 API；不登入也能參與議題。Google 登入憑證須由伺服器驗證，製卡只使用姓名與頭像，保留於頁面記憶體，不寫入 `localStorage` 或匿名表態資料庫，不與 `pid` 綁定。小卡在瀏覽器產生，由使用者主動下載或分享，沒有公開個人分享網址。Google 用戶端與允許來源須依實際部署網域設定；更換用戶端時，同步核對前端設定與伺服器憑證驗證設定。
+
+只有點擊「用 Google 製作小卡」後才載入 GIS 並取得 nonce，以 Google 官方按鈕開始登入，不啟動 One Tap。nonce Cookie 最長 10 分鐘、HttpOnly、SameSite=Strict；伺服器使用 `google-auth-library` 驗證簽章、`aud`／`iss`／`exp` 及 nonce，驗證處理後清除 Cookie，不建立個人資料 session。API 僅回傳姓名及已驗證頭像的 data URL，不回傳 `sub`、email 或 token。
+
+小卡為 1080 × 1350 PNG，以 `qrcode` 產生指向公開討論網址的 QR Code，不包含表態選擇或虛構參與結果。清除小卡或離開頁面時會清理頁面中的個人資料、未完成請求及 Blob URL；這不會登出使用者原有的 Google 帳號。支援時使用 Web Share Files，否則改為複製討論網址；自動複製失敗時顯示可手動複製的網址，不宣稱已發文。
+
+Cloudflare AI 摘要若啟用，只處理已核准公開的觀點與統計，依服務程式設定的配額限制執行，不傳送 Google 姓名、頭像或登入身分。變更審核、開放資料、AI 或資料保存行為時，應同步更新 `src/app/privacy/page.tsx`；不要將 token、個人資料、管理憑證或審議原始資料提交至原始碼庫。Next.js 網站與 Cloudflare 審議服務是分開的部署邊界，前端建置成功不代表後端服務、Google 設定或 AI 已可用。
+
+Pocket Polis 上游基準為 `836ba19ffa93037555b22f2fd48645678255ab03`，其 MIT 原文與 notice 見 [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md)。參與者觀點、Google 姓名與頭像不因網站開源而取得 MIT 或 CC BY-SA 4.0 再利用授權，詳見 [ASSETS.md](./ASSETS.md)。
 
 ## 動畫
 
@@ -91,6 +123,8 @@ GSAP 與 ScrollTrigger 由 npm 安裝並由本站提供，首頁與故事頁採�
 
 各頁提供可直接讀取的靜態 HTML、標題與描述，並設定 canonical、Open Graph、Twitter 分享資料及 JSON-LD 結構化資料。搜尋引擎入口為 `public/robots.txt` 與 `public/sitemap.xml`；新增或移除公開頁面時，請同步維護 sitemap。主要網域變更時，也須同步調整 `next.config.ts`、共用版型及各頁 Metadata 及上述搜尋設定。
 
+公共議題頁使用正式網址 `https://sunnychen.tw/deliberation/`，已列入 sitemap；公開社群預覽使用 `public/images/deliberation-share.png`（1200 × 630）。維護該頁的議題標題與背景時，同步更新其 title、description、canonical、Open Graph、Twitter 與 `WebPage` JSON-LD，避免沿用首頁標題。Google 姓名、頭像、匿名 `pid` 與個人小卡不得放入公開分享網址、分享 Metadata、JSON-LD 或 sitemap；本機產生的小卡沒有可索引的個人頁面。個人小卡與公開議題的社群預覽圖是不同用途。
+
 ## 圖片與文字來源
 
 故事內容及原書頁來自委託提供的十張故事書照片；實際網站使用真實人物與活動照片。官方 Facebook 素材來源：
@@ -104,7 +138,7 @@ GSAP 與 ScrollTrigger 由 npm 安裝並由本站提供，首頁與故事頁採�
 
 ### 字型效能
 
-目前使用 `public/fonts/sunny-noto-tc-v2.woff2`，大小為 209448 bytes（約 205 KiB）；簽名字型約數 KB。字型子集涵蓋目前 `src/` 文案，產生腳本會讀取 `.astro`、`.ts`、`.tsx` 與 `.css`，包含新增的支持專區與倒數文字。
+目前主字集使用 `public/fonts/sunny-noto-tc-v2.woff2`，大小為 209448 bytes（約 205 KiB）；公共議題、隱私與分享小卡的新增文字使用 `sunny-noto-tc-extra-v1.woff2` 補充子集，大小為 58872 bytes（約 57.5 KiB），透過 CSS `unicode-range` 分開載入。簽名字型約數 KB。字型產生腳本會讀取 `src/` 下的 `.astro`、`.ts`、`.tsx` 與 `.css` 文案。
 
 更新文案後，可安裝 `fonttools[woff]`，使用官方 Noto Sans TC 可變字型執行：
 
@@ -118,4 +152,8 @@ python scripts/subset-fonts.py /path/to/NotoSansTC-variable.ttf
 python scripts/subset-fonts.py /path/to/NotoSansTC-variable.ttf sunny-noto-tc-v3.woff2
 ```
 
-新增版本後，請同步更新 `src/app/layout.tsx` 的預載路徑與 `src/styles/global.css` 的字型路徑，避免長效快取沿用舊檔；目前兩處均使用 v2。未包含的字元會使用系統字型。保留的 v1 舊版與新增 v2 均適用 `public/fonts/` 隨附的 SIL OFL 授權。
+新增版本後，請同步更新 `src/app/layout.tsx` 的主字集預載路徑與 `src/styles/global.css` 的字型路徑；目前主字集為 v2，CSS 另載入 extra-v1。已發布的字型請使用新檔名版本，不覆寫長效快取中的舊檔。未包含的字元會使用系統字型。保留的 v1、目前 v2 與 extra-v1 補充子集均適用 `public/fonts/` 隨附的 SIL OFL 授權。
+
+審議頁與新增文字使用 `sunny-noto-tc-extra-v1.woff2` 補充字形；原有 v2 字型的網址與內容保持固定，避免 immutable 快取衝突。審議頁專用社群預覽圖為 `/images/deliberation-share.png`（1200×630），不含個人資料。
+
+SEO 回歸檢查：啟動網站後執行 `node scripts/check-seo.mjs http://localhost:4321`；部署後改用 `https://sunnychen.tw`。檢查五個公開頁面的原始 HTML、標準網址、JSON-LD、分享圖、sitemap、robots、API 不索引及 404。通過技術檢查不保證 Google 收錄時間或排名。

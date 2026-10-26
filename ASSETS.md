@@ -2,7 +2,7 @@
 
 盤點日期：2026 年 10 月 26 日。
 
-本專案公開原始碼，不表示所有可見內容都已取得自由再利用授權。根目錄對原創程式碼、可授權的原創設計或文件所作的授權，**不包含下列照片、故事書、人物文宣、官方標誌及其衍生素材**。這項區分依內容性質判斷，不因內容存放於圖片、資料檔、TSX、CSS、Metadata 或文件內而改變。
+本專案公開原始碼，不表示所有可見內容都已取得自由再利用授權。根目錄對原創程式碼、可授權的原創設計或文件所作的授權，**不包含下列照片、故事書、人物文宣、官方標誌及其衍生素材，也不包含參與者提交的觀點、Google 姓名與頭像**。這項區分依內容性質判斷，不因內容存放於圖片、資料檔、TSX、CSS、Metadata 或文件內而改變。
 
 相關權利以各原權利人為準。本專案沒有查得下列競選素材另以 MIT、Creative Commons 或其他自由內容授權釋出的聲明，因此不替原權利人作出這類授權。公開瀏覽、提供網站製作素材、轉檔、縮圖或去背，均不是本文件宣稱素材已可任意再利用的依據。
 
@@ -35,10 +35,23 @@
 | `public/images/market-visit.webp`、`market-visit-640.webp` | [官方市場走訪照片](https://www.facebook.com/photo/?fbid=122209076738906843&set=pcb.122209077224906843) | 網頁格式轉換、縮圖 |
 | `public/images/social-share.jpg` | [官方 Facebook 封面文宣](https://www.facebook.com/photo/?fbid=122199722582906843&set=a.122125307216906843) | 配置為 1200 × 630 分享圖片；保留原文宣中的姓名識別及政黨標誌 |
 | `public/images/sunny-logo-v1.png` | 同上方官方封面中的姓名識別 | 使用內建 Image Gen 去背製作透明衍生稿；不是官方向量原檔 |
+| `public/images/deliberation-share.png` | 本站公共議題分享圖，引用上述 `sunny-logo-v1.png` | 1200 × 630 通用 Open Graph 圖片，不含參與者姓名、頭像或表態；其中官方姓名 Logo 仍適用原素材的權利例外 |
 
 上述素材來源帳號為 [中和超拚 陳怡君 Sunny](https://www.facebook.com/tppsunny)。攝影、文宣設計、姓名識別、政黨標誌及照片中人物的相關權利，仍以各原權利人為準；本專案不宣稱粉絲專頁就是每一項權利的唯一持有人。
 
 Image Gen 處理沒有使官方識別自動轉為可自由再授權素材。`sunny-logo-v1.png` 與 `social-share.jpg` 同樣排除於本專案程式碼、原創設計及文件的開放授權之外。
+
+`deliberation-share.png` 的可授權原創排版依原創設計授權處理，其中引用的官方姓名 Logo 不隨之取得 MIT 或 CC BY-SA 4.0 授權；不能將整張含有官方識別的圖片概括為自由內容素材。
+
+## 參與者觀點與個人分享小卡
+
+公共議題參與者提交的提案、觀點及其他內容，其相關權利仍以各原權利人為準。送出、通過審核或顯示於討論頁，不代表這些內容已改採本專案的 MIT、CC BY-SA 4.0，或成為可任意再利用的素材。本站不以程式碼的開放授權替參與者作出額外的內容授權。
+
+使用者自選 Google 登入後取得的姓名、頭像與相關肖像權利，也不在本專案開放授權的範圍內；頭像照片可能另有原作者權利，不能僅因使用者提供 Google 頭像就推定本站擁有完整再授權權限。Google 登入介面中的標誌等材料仍保留其各自權利。
+
+個人分享小卡由使用者主動在瀏覽器產生、下載或分享，本站不建立公開個人分享網址。小卡所用的原創程式與可授權原創版面依根目錄相應授權處理；其中的使用者姓名、頭像、觀點、人物照片或官方品牌元素仍適用各自例外，不能把整張含有這些材料的小卡概括為 MIT 或 CC BY-SA 4.0。個人分享不代表人物、團隊、平台或內容權利人為其他用途背書。
+
+本專案沒有收錄或重播 Pocket Polis 上游 demo 資料，不將上游示範參與者或回應當作本站中和議題的結果。上游範例的個別授權也不能用來推定本站新投稿已採自由內容授權；詳見 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
 
 ## 本站原創設計與識別
 
@@ -61,6 +74,7 @@ Image Gen 處理沒有使官方識別自動轉為可自由再授權素材。`sun
 | 字型檔案 | 隨附完整授權與原始 notice |
 | --- | --- |
 | `public/fonts/sunny-noto-tc-v2.woff2`（目前使用，包含新增 TSX 文案） | [OFL-NotoSansTC.txt](public/fonts/OFL-NotoSansTC.txt)：Copyright 2014-2021 Adobe，Reserved Font Name 為 `Source` |
+| `public/fonts/sunny-noto-tc-extra-v1.woff2`（公共議題、隱私與分享小卡新增文字的補充子集） | 同上，適用相同 SIL Open Font License 1.1 與原始 notice；以 CSS `unicode-range` 搭配主字集載入 |
 | `public/fonts/sunny-noto-tc-v1.woff2`（保留的舊版子集） | 同上，適用相同 SIL Open Font License 1.1 與原始 notice |
 | `public/fonts/sunny-caveat-v1.woff2` | [OFL-Caveat.txt](public/fonts/OFL-Caveat.txt)：Copyright 2014 The Caveat Project Authors |
 

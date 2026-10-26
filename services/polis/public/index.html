@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pocket Polis 口袋審議 — 讓你可以隨時發起審議的口袋工具</title>
+  <meta name="description" content="Pocket Polis（口袋審議）是由 AI Agent 設計打造的輕量版 Polis：大家丟出意見、互相投票，意見地圖即時顯示分歧與共識。一鍵發起，不用註冊、不用架網站。">
+  <meta property="og:title" content="Pocket Polis 口袋審議 — A pocket tool for deliberation, anytime">
+  <meta property="og:description" content="由 AI Agent 設計打造的輕量版 Polis：意見地圖、自動分群、跨群共識。一鍵發起。A lightweight Polis, designed by AI agents.">
+  <meta property="og:url" content="https://polis.mashbean.net/">
+  <meta property="og:image" content="https://polis.mashbean.net/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+<main>
+  <nav class="site-nav">
+    <a class="wordmark" href="/"><img src="/logo.png" alt="Pocket Polis logo">Pocket Polis <span class="zh">口袋審議</span></a>
+    <a href="/explore">大家的議題</a>
+    <a href="/guide">實務指南</a>
+    <a href="/r/3ovoxq5c6o">示範</a>
+    <a href="#self-host">自己架一個</a>
+    <a class="lang" href="/en">EN</a>
+  </nav>
+
+  <div class="hero">
+    <div>
+      <h1>把審議，<br><span class="grad-text">放進你的口袋</span></h1>
+      <p class="tagline">讓你可以隨時發起審議的口袋工具<br><span class="muted">A pocket tool for deliberation, anytime.</span></p>
+      <p class="lede">一句話就可以請 AI Agent 幫你搞定的輕量版 <a href="https://compdemocracy.org/polis/">Polis</a>，且不需要煩惱伺服器（謝謝 Cloudflare）。自動匯集群眾意見，馬上畫出<strong>意見地圖</strong>。按一下就可以開始。</p>
+      <div class="actions hero-actions">
+        <a class="button primary" href="#create">一鍵發起</a>
+        <a class="button" href="/explore">看大家的議題</a>
+        <a class="button" href="/r/3ovoxq5c6o">先看示範</a>
+      </div>
+      <div class="check-row">
+        <span>不用註冊</span>
+        <span>匿名參與、無追蹤</span>
+        <span>開源 MIT</span>
+        <span>資料可整包帶走</span>
+      </div>
+    </div>
+    <div class="hero-figure" aria-hidden="true">
+      <svg viewBox="0 0 380 330" xmlns="http://www.w3.org/2000/svg">
+        <rect x="1" y="1" width="378" height="328" rx="16" fill="var(--surface)" stroke="var(--border)"/>
+        <rect x="1" y="1" width="378" height="34" rx="16" fill="var(--surface-2)"/>
+        <rect x="1" y="19" width="378" height="16" fill="var(--surface-2)"/>
+        <circle cx="22" cy="18" r="4" fill="#f87171"/><circle cx="38" cy="18" r="4" fill="#fbbf24"/><circle cx="54" cy="18" r="4" fill="#34d399"/>
+        <rect x="120" y="10" width="140" height="16" rx="8" fill="var(--bg)" stroke="var(--border)"/>
+        <text x="190" y="22" text-anchor="middle" font-size="9" fill="var(--muted)">polis.mashbean.net</text>
+        <defs>
+          <filter id="mock-blur" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur stdDeviation="8"/>
+          </filter>
+        </defs>
+        <line x1="190" y1="46" x2="190" y2="248" stroke="var(--border)" stroke-width="1"/>
+        <line x1="18" y1="150" x2="362" y2="150" stroke="var(--border)" stroke-width="1"/>
+        <path d="M 54 150 Q 52 94 102 90 Q 150 88 152 142 Q 156 200 106 212 Q 58 214 54 150 Z"
+          fill="var(--group-1)" fill-opacity="0.14" filter="url(#mock-blur)"/>
+        <path d="M 224 148 Q 226 86 280 84 Q 334 86 336 146 Q 336 206 282 212 Q 226 210 224 148 Z"
+          fill="var(--group-0)" fill-opacity="0.14" filter="url(#mock-blur)"/>
+        <g fill="var(--group-1)" stroke="var(--surface)" stroke-width="1.4">
+          <circle cx="78" cy="108" r="5"/><circle cx="112" cy="102" r="5"/><circle cx="64" cy="132" r="5"/>
+          <circle cx="92" cy="128" r="5"/><circle cx="126" cy="122" r="5"/><circle cx="72" cy="158" r="5"/>
+          <circle cx="104" cy="152" r="5"/><circle cx="134" cy="150" r="5"/><circle cx="84" cy="180" r="5"/>
+          <circle cx="116" cy="176" r="5"/><circle cx="70" cy="196" r="5"/><circle cx="100" cy="200" r="5"/>
+          <circle cx="128" cy="188" r="5"/>
+        </g>
+        <g fill="var(--group-0)" stroke="var(--surface)" stroke-width="1.4">
+          <circle cx="250" cy="100" r="5"/><circle cx="286" cy="94" r="5"/><circle cx="312" cy="108" r="5"/>
+          <circle cx="238" cy="126" r="5"/><circle cx="268" cy="120" r="5"/><circle cx="298" cy="124" r="5"/>
+          <circle cx="326" cy="138" r="5"/><circle cx="246" cy="150" r="5"/><circle cx="278" cy="146" r="5"/>
+          <circle cx="308" cy="154" r="5"/><circle cx="236" cy="176" r="5"/><circle cx="264" cy="172" r="5"/>
+          <circle cx="296" cy="178" r="5"/><circle cx="322" cy="168" r="5"/><circle cx="276" cy="198" r="5"/>
+        </g>
+        <rect x="68" y="52" width="64" height="21" rx="10.5" fill="var(--group-1)" fill-opacity="0.12"/>
+        <text x="100" y="66.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--group-1)">B 群 · 39</text>
+        <rect x="246" y="52" width="64" height="21" rx="10.5" fill="var(--group-0)" fill-opacity="0.12"/>
+        <text x="278" y="66.5" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--group-0)">A 群 · 47</text>
+        <rect x="155" y="98" width="26" height="17" rx="8.5" fill="var(--text)"/>
+        <text x="168" y="110" text-anchor="middle" font-size="10" font-weight="700" fill="var(--surface)">你</text>
+        <circle cx="168" cy="130" r="9" fill="none" stroke="var(--text)" stroke-opacity="0.3" stroke-width="1.5"/>
+        <circle cx="168" cy="130" r="5" fill="var(--text)" stroke="var(--surface)" stroke-width="2"/>
+        <rect x="36" y="266" width="308" height="44" rx="10" fill="var(--surface-2)" stroke="var(--border)"/>
+        <text x="52" y="284" font-size="10" fill="var(--muted)">跨群共識 · Common ground</text>
+        <text x="52" y="300" font-size="11" fill="var(--text)">重要決定應該提前一週公告</text>
+        <rect x="272" y="278" width="58" height="20" rx="10" fill="var(--agree)" fill-opacity="0.12" stroke="var(--agree)"/>
+        <text x="301" y="292" text-anchor="middle" font-size="10" font-weight="700" fill="var(--agree)">83% 同意</text>
+      </svg>
+    </div>
+  </div>
+
+  <h2>適合什麼場合</h2>
+  <div class="cards-3">
+    <div class="card">
+      <h3>社群要做決定</h3>
+      <p>社團、學校、社區、合作社：「接下來一年最該做什麼？」比起投票表決，先看清楚大家的想法分布。</p>
+    </div>
+    <div class="card">
+      <h3>開會前先收意見</h3>
+      <p>把爭點和共識在會前攤開，會議時間直接花在真正有分歧的地方。</p>
+    </div>
+    <div class="card">
+      <h3>工作坊現場</h3>
+      <p>20–50 人掃 QR code 即投，15 分鐘就能一起看意見地圖，接著分組討論。</p>
+    </div>
+  </div>
+
+  <h2>一場討論怎麼進行</h2>
+  <ol class="steps">
+    <li><div><strong>準備</strong>：訂一個開放式題目，寫 8–15 句「種子意見」，一句一個想法，大家可以同意或不同意。</div></li>
+    <li><div><strong>發連結</strong>：打開連結就能投票，不用註冊，想到什麼也可以隨時丟出來。</div></li>
+    <li><div><strong>看地圖</strong>：結果頁即時更新，想法相近的人會靠在一起、自動分成幾群；系統也會找出每群的代表意見，還有<strong>大家都同意的部分</strong>。</div></li>
+    <li><div><strong>收尾</strong>：和大家一起讀地圖，先看共識、再看分歧；需要的話下載完整資料（匿名化 CSV）。</div></li>
+  </ol>
+  <p class="muted">主持技巧、種子意見怎麼寫、要多少人：都在<a href="/guide">實務指南</a>。</p>
+
+  <h2>示範：【模擬】國防軍購特別預算公投</h2>
+  <div class="card">
+    <p>113 位<strong>虛構</strong>立法委員（化名取自台灣物種與地景，非真實個人）依政黨席次結構由程式模擬投票。地圖分成 62:51 兩群，在「兩岸對話 vs 軍購嚇阻」上針鋒相對；即使如此，<strong>透明、監督、全民防衛韌性</strong>等五句意見仍然拿到 67–83% 的跨群共識。</p>
+    <p class="muted">討論開放中：你的每一票都會即時改變地圖。模擬方法見<a href="https://github.com/mashbean/pocket-polis/blob/main/docs/demo-legislature-sim.md">案例說明</a>。English demo: <a href="/r/qx7fc5m3ql?lang=en">simulated defense-budget referendum</a>.</p>
+    <div class="actions">
+      <a class="button primary" href="/c/3ovoxq5c6o">加入投票</a>
+      <a class="button" href="/r/3ovoxq5c6o">看意見地圖與共識</a>
+    </div>
+  </div>
+
+  <h2 id="create">一鍵發起</h2>
+  <p class="muted">直接用這個公用示範站就能開始（想要自己的網址與資料，見下方「<a href="#self-host">自己架一個</a>」）。</p>
+  <form id="create-form" class="card">
+    <label for="title">題目</label>
+    <input type="text" id="title" name="title" maxlength="120" required placeholder="例：我們的社群接下來一年最該做什麼？">
+
+    <label for="description">說明（選填）</label>
+    <textarea id="description" name="description" rows="3" maxlength="2000" placeholder="給參與者的背景說明"></textarea>
+
+    <label for="seeds">種子意見（一行一句，建議 8–15 句）</label>
+    <textarea id="seeds" name="seeds" rows="6" placeholder="例：&#10;我們應該優先改善新成員的加入體驗。&#10;線上聚會比實體聚會更適合我們。"></textarea>
+
+    <p class="form-defaults">預設：參與者可新增意見並立即公開；匿名資料不開放下載。</p>
+    <details class="plain-box form-advanced">
+      <summary>調整審核與資料設定</summary>
+      <label class="checkbox-row"><input type="checkbox" id="auto-approve" checked> 參與者提出的新意見直接公開（不勾＝需要你先核准）</label>
+      <label class="checkbox-row"><input type="checkbox" id="allow-submissions" checked> 開放參與者提出新意見</label>
+      <label class="checkbox-row"><input type="checkbox" id="open-data"> 公開資料下載（任何人可下載匿名化的投票紀錄，這場討論也會列在<a href="/explore">大家的議題</a>）</label>
+    </details>
+
+    <div class="actions">
+      <button type="submit" class="primary" id="create-button">建立討論</button>
+    </div>
+    <p id="create-error" class="error hidden"></p>
+  </form>
+
+  <section id="created" class="card hidden">
+    <h2>討論已建立</h2>
+    <p><strong>參與連結</strong>（發給所有參與者）：</p>
+    <div class="link-row"><code id="participate-url"></code><button type="button" data-copy="participate-url">複製</button></div>
+    <p><strong>結果頁</strong>（即時意見地圖，任何人可看）：</p>
+    <div class="link-row"><code id="report-url"></code><button type="button" data-copy="report-url">複製</button></div>
+    <p><strong>管理連結</strong>（只給主持人；<strong>遺失無法找回</strong>，請立刻存到安全的地方）：</p>
+    <div class="link-row"><code id="admin-url"></code><button type="button" data-copy="admin-url">複製</button></div>
+    <p class="muted">管理金鑰放在網址「#」之後，不會被送到伺服器、也不會出現在任何紀錄裡。</p>
+    <div class="actions">
+      <a id="admin-link" class="button primary" href="#">前往管理頁</a>
+      <a id="participate-link" class="button" href="#">先去投票</a>
+    </div>
+  </section>
+
+  <h2 id="self-host">自己架一個</h2>
+  <p>想要「自己的網址、自己的資料」時，交給你的 AI 助手，十分鐘內部署到你自己的 Cloudflare 帳號。Cloudflare 是大型網路服務商，<strong>免費方案就夠</strong>跑數百人的討論；資料存在你的帳號裡，隨時可整包下載帶走。</p>
+
+  <div class="card">
+    <h3>交給你的 AI 助手</h3>
+    <ol class="steps-plain">
+      <li>還沒有 Cloudflare 帳號的話，先到 <a href="https://dash.cloudflare.com/sign-up">dash.cloudflare.com/sign-up</a> 免費註冊（只要 email）。</li>
+      <li>把下面這段話貼給 Claude Code、Cursor 等 AI 程式助手。</li>
+      <li>過程中它會請你在瀏覽器按一次「登入 Cloudflare」，這是唯一需要你動手的一步。</li>
+    </ol>
+    <pre id="agent-prompt">請照 https://github.com/mashbean/pocket-polis/blob/main/AGENT.md 的說明，把 Pocket Polis 部署到我的 Cloudflare 帳號（wrangler login 那一步我自己完成），部署完成後用 API 幫我建立第一場討論。</pre>
+    <div class="actions">
+      <button type="button" data-copy="agent-prompt">複製這段話</button>
+      <a class="button" href="https://github.com/mashbean/pocket-polis/blob/main/AGENT.md">給 AI 的說明書</a>
+    </div>
+    <details class="plain-box">
+      <summary>習慣終端機？六行指令也可以</summary>
+      <pre id="manual-steps">git clone https://github.com/mashbean/pocket-polis.git
+cd pocket-polis
+npm install
+npx wrangler login
+npm run check
+npm run deploy</pre>
+      <div class="actions">
+        <button type="button" data-copy="manual-steps">複製指令</button>
+      </div>
+    </details>
+  </div>
+
+  <h2>常見問題</h2>
+  <details class="faq">
+    <summary>真的不用架伺服器嗎？</summary>
+    <p>對。「無伺服器」的意思是：<strong>沒有一台你需要照顧的機器</strong>。不用租主機、不用備份資料庫、不用半夜重開機。程式放在 Cloudflare 的雲端服務上，有人投票才運轉，平常不耗資源也不收費。完整的技術說明（包括我們比較過哪些替代方案）在<a href="https://github.com/mashbean/pocket-polis/blob/main/docs/is-this-serverless.md">這份文件</a>。</p>
+  </details>
+  <details class="faq">
+    <summary>參與的人會被記名嗎？</summary>
+    <p>不會。不用註冊、不填 email；瀏覽器只保存一個隨機代號避免重複計票。結果頁和下載的資料裡都沒有任何身分資訊。提醒：這種輕量做法擋不住刻意的灌票，適合彼此有基本信任的社群、課堂、工作坊；高對抗性的公共諮詢請用官方 pol.is。</p>
+  </details>
+  <details class="faq">
+    <summary>需要多少人參加才有意義？</summary>
+    <p>4 人以上（每人投滿門檻票數）就會開始分群；20 人以上地圖趨於穩定。系統設計上支撐到數百至上千人。</p>
+  </details>
+  <details class="faq">
+    <summary>它和官方 pol.is 有什麼不同？</summary>
+    <p>官方 pol.is 是成熟的大型平台，需要工程團隊自架或申請使用。Pocket Polis 依公開文獻重新實作同一套分群方法（並用官方公開資料驗證過，三個資料集的分群一致性 ARI 0.78–0.86），換來「一鍵發起、免費跑」的輕量性。與官方團隊（The Computational Democracy Project）無隸屬關係。</p>
+  </details>
+  <details class="faq">
+    <summary>資料存在哪裡？可以帶走嗎？</summary>
+    <p>存在部署者的 Cloudflare 帳號裡，每場討論各自獨立。主持人隨時可以下載完整的意見清單與投票紀錄（匿名化 CSV），也可以選擇開放任何人下載。</p>
+  </details>
+  <details class="faq">
+    <summary>「大家的議題」列的是什麼？</summary>
+    <p><a href="/explore">大家的議題</a>列出這個公用站上、建立時勾選「公開資料下載」的討論。這些題目由使用者自己發起，<strong>不是站方建立的，也未經站方查證或背書</strong>；違反行為準則的討論會被下架。不想被列出就不要勾選那個選項——不勾的討論一樣可以用連結分享，只是不會被列舉。</p>
+  </details>
+  <details class="faq">
+    <summary>示範站有使用規範嗎？</summary>
+    <p>有。出現騷擾、仇恨言論、違法內容、洩露個資、灌票操弄等情況時，站方（mashbean）有權下架相關討論、或把它移出<a href="/explore">大家的議題</a>，詳見<a href="https://github.com/mashbean/pocket-polis/blob/main/CODE_OF_CONDUCT.md">行為準則</a>。自架的站點由部署者自訂規範。</p>
+  </details>
+  <details class="faq">
+    <summary>Pocket Polis MCP 是什麼？要怎麼用？</summary>
+    <p>MCP 是給 Codex、Claude 等 AI 助手使用的連接方式。一般參與或主持討論不需要設定；想讓 AI 直接建立場次、讀取即時結果或協助綜整時，才需要把 Pocket Polis 的 MCP 端點加進 AI 助手。端點不是網頁，不用在瀏覽器打開。</p>
+    <pre id="mcp-quickstart"># Codex
+codex mcp add pocket-polis --url https://polis.mashbean.net/mcp
+
+# Claude Code
+claude mcp add --transport http pocket-polis https://polis.mashbean.net/mcp</pre>
+    <p>設定一次後，直接告訴 AI 場次網址或 10 碼場次 ID，例如：「讀取這場討論，整理各群立場、跨群共識和主要分歧，並附上意見編號。」讀取指定場次的公開結果不需要金鑰；管理場次或匯出非公開資料時，才需要該場討論的管理金鑰。自架者請把網址換成自己的網域。完整工具與權限說明見 <a href="https://github.com/mashbean/pocket-polis/blob/main/docs/mcp.md">MCP 文件</a>。</p>
+  </details>
+</main>
+<footer>
+  <div class="inner">
+    <p><a href="/explore">大家的議題</a> · <a href="/guide">實務指南</a> · <a href="https://github.com/mashbean/pocket-polis">原始碼</a>（MIT）· <a href="https://github.com/mashbean/pocket-polis/blob/main/CODE_OF_CONDUCT.md">行為準則</a> · <a href="/en">English</a><br>
+    Pocket Polis（口袋審議）依 Polis 公開文獻重新實作，與 The Computational Democracy Project 的 pol.is 無隸屬關係。驗證資料：compdemocracy openData（CC BY 4.0）。</p>
+    <p class="credit">Created and maintained by <a href="https://github.com/mashbean">mashbean</a></p>
+  </div>
+</footer>
+<script type="module" src="/js/create.js"></script>
+</body>
+</html>

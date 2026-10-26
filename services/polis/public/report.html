@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>結果 — Pocket Polis</title>
+  <meta property="og:title" content="意見地圖 — Pocket Polis 口袋審議">
+  <meta property="og:description" content="看看大家的意見分成幾群、哪裡其實有共識。See how opinions cluster and where the common ground is.">
+  <meta property="og:url" content="https://polis.mashbean.net/">
+  <meta property="og:image" content="https://polis.mashbean.net/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+<main class="report-main">
+  <nav class="site-nav compact">
+    <a class="wordmark" href="/" id="home-link"><img src="/logo.png" alt="Pocket Polis logo">Pocket Polis <span class="zh" data-i18n="nav.zhName">口袋審議</span></a>
+    <span class="lang-switch" id="lang-switch"></span>
+  </nav>
+  <h1 id="conv-title" data-i18n="app.loading">載入中⋯</h1>
+  <p id="conv-description" class="muted"></p>
+  <p class="notice hidden" id="alt-banner"><a id="alt-link" href="#" data-i18n="app.altBanner">這場討論有另一個語言版本，點此前往</a> →</p>
+  <p id="load-error" class="error hidden"></p>
+
+  <div class="stats-row" id="stats-row"></div>
+  <div class="report-toolbar">
+    <a id="participate-link" class="button primary" href="#" data-i18n="r.participate">去投票</a>
+    <button type="button" id="refresh" data-i18n="r.refresh">重新整理結果</button>
+    <p class="muted" id="computed-at"></p>
+  </div>
+
+  <!-- 第一眼只回答「目前看見什麼」；模型只是來源，不是產品主角。 -->
+  <section class="report-section" id="ai-section" aria-labelledby="ai-title">
+    <div class="section-header">
+      <h2 id="ai-title" data-i18n="r.aiTitle">目前看見什麼</h2>
+      <div class="ai-badge-row" id="ai-badge-row">
+        <span class="badge ai-model-badge hidden" id="ai-model-badge"></span>
+        <span class="badge ai-status-badge hidden" id="ai-status-badge"></span>
+      </div>
+    </div>
+    <div id="ai-overview-container" aria-live="polite"></div>
+  </section>
+
+  <!-- 核心結果優先：不需要等待或理解 AI 就能看。 -->
+  <section class="report-section" id="map-section" aria-labelledby="map-title">
+    <h2 id="map-title" data-i18n="r.mapTitle">意見地圖</h2>
+    <p class="muted" data-i18n="r.mapHint">每個點是一位參與者：投票越相似的人靠得越近，顏色代表想法相近的群。投票數還不夠的參與者暫時不會出現。</p>
+    <div class="map-and-groups">
+      <div class="map-panel">
+        <div id="map-container"></div>
+        <div class="legend" id="legend"></div>
+        <p class="muted hidden" id="you-note" data-i18n="r.youNote">標著「你」的深色圓點，就是你的位置。</p>
+      </div>
+      <div class="group-summary">
+        <h3 data-i18n="r.groupsTitle">各群在意什麼</h3>
+        <p class="muted" data-i18n="r.groupsHint">這些意見最能區分這個群和其他群（差異經過統計檢定確認）。</p>
+        <div id="groups-container"></div>
+      </div>
+    </div>
+  </section>
+
+  <details class="report-disclosure" id="deep-analysis">
+    <summary>
+      <span data-i18n="r.deepAnalysisTitle">深入理解這場討論</span>
+      <small data-i18n="r.deepAnalysisHint">查看主題、跨群共識、關鍵張力與推進問題</small>
+    </summary>
+    <section id="insights-section" aria-labelledby="insights-title">
+      <h2 id="insights-title" data-i18n="r.consensusTensionTitle">共識、張力與推進問題</h2>
+      <div class="sub-section">
+        <h3 data-i18n="r.commonGroundSubtitle">跨群共識與共同價值</h3>
+        <p class="muted" data-i18n="r.consensusHint">每一群都傾向同一邊的意見，也就是立場不同的人仍然共享的看法。</p>
+        <div id="common-ground-container"></div>
+        <div class="card" id="consensus-container"></div>
+      </div>
+      <div class="sub-section">
+        <h3 data-i18n="r.bridgingSubtitle">橋接排序</h3>
+        <p class="muted" data-i18n="r.bridgingHint">扣掉立場軸之後仍然被同意的陳述排在前面：同樣的同意率，被單一陣營撐起來的會往後掉。方法與 Community Notes、Agora 的 bridging-based ranking 同源。</p>
+        <div class="card" id="bridging-container"></div>
+      </div>
+      <div class="sub-section">
+        <h3 data-i18n="r.tensionsSubtitle">群間分歧與推進對話提問</h3>
+        <p class="muted" data-i18n="r.tensionsHint">立場差異最顯著的張力所在，以及有助於促進共識的對話切入點。</p>
+        <div id="tensions-container"></div>
+      </div>
+      <div class="sub-section">
+        <h3 data-i18n="r.groupPortraitsTitle">各群視角畫像</h3>
+        <div id="group-portraits-container"></div>
+      </div>
+    </section>
+  </details>
+
+  <section class="report-section" id="all-statements-section" aria-labelledby="all-title">
+    <div class="section-header">
+      <h2 id="all-title" data-i18n="r.allTitle">全部意見</h2>
+      <button type="button" id="clear-theme-filter" class="button secondary hidden" data-i18n="r.backToAll">顯示全部意見</button>
+    </div>
+    <p class="muted" data-i18n="r.allHint">所有經審核通過的意見陳述及其全體投票分布。</p>
+    <section class="theme-filter-panel hidden" id="themes-section" aria-labelledby="themes-title">
+      <h3 id="themes-title" data-i18n="r.themesTitle">依主題篩選</h3>
+      <p class="muted" data-i18n="r.themesHint">選一個主題，只查看相關意見與投票分布。</p>
+      <div id="themes-container"></div>
+      <p class="muted theme-filter-description hidden" id="theme-filter-description"></p>
+    </section>
+    <div class="card" id="statements-container"></div>
+  </section>
+
+  <details class="report-disclosure hidden" id="export-section">
+    <summary>
+      <span data-i18n="r.exportTitle">資料與其他工具</span>
+      <small data-i18n="r.exportSummary">下載匿名資料，或交給其他工具繼續分析</small>
+    </summary>
+    <div class="actions">
+      <a class="button" id="export-tttc" href="#" data-i18n="r.exportTttc">下載 tttc.csv</a>
+      <a class="button" id="export-comments" href="#" data-i18n="r.exportComments">下載 comments.csv</a>
+      <a class="button" id="export-statements" href="#" data-i18n="r.exportStatements">下載 statements.csv</a>
+      <a class="button" id="export-votes" href="#" data-i18n="r.exportVotes">下載 votes.csv</a>
+    </div>
+    <p class="muted"><span data-i18n="r.exportTttcNote">tttc.csv 是 Talk to the City 的匯入格式（id,interview,comment），只含已核准意見，來源以 host 與 pN 匿名代號標記。</span> <a href="https://github.com/AIObjectives/tttc-light-js" target="_blank" rel="noopener" data-i18n="r.exportTttcLink">Talk to the City →</a></p>
+    <p class="muted"><span data-i18n="r.exportNote">與 pol.is 報告頁匯出的 comments.csv 同格式，可直接上傳到 AI 意見綜整工具；作者欄以流水號匿名化。</span> <a href="https://make.vtaiwan.tw/" target="_blank" rel="noopener" data-i18n="r.exportSensemaker">試試 vTaiwan Sensemaker →</a></p>
+    <p class="muted"><span data-i18n="r.exportWorkbenchNote">statements.csv 與 votes.csv 是 delib 資料工作台的輸入，可在瀏覽器內驗證後轉成 TTTC 或 Agora 格式，或整理成公開成果收據。</span> <a href="https://delib.mashbean.net/integrations/pocket-polis-data" target="_blank" rel="noopener" data-i18n="r.exportWorkbench">delib 資料工作台 →</a></p>
+  </details>
+</main>
+<footer>
+  <div class="inner report-main">
+  <p><a href="/guide#how-it-works" id="method-link" data-i18n="r.methodNote">分群方法說明</a> · <a href="https://github.com/mashbean/pocket-polis" data-i18n="app.sourceLink">原始碼</a></p>
+  </div>
+</footer>
+<script type="module" src="/js/report.js"></script>
+</body>
+</html>

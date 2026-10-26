@@ -90,6 +90,7 @@ export default function SiteHeader() {
         >
           <Link href="/#about" onClick={closeMenu}>關於怡君</Link>
           <Link href="/#story" onClick={closeMenu}>人生故事</Link>
+          <Link href="/deliberation/" onClick={closeMenu}>公共議題</Link>
           <Link href="/#updates" onClick={closeMenu}>社群動態</Link>
           <Link href="/#support" onClick={closeMenu}>支持怡君</Link>
           <Link className="button button-small" href="/#contact" onClick={closeMenu}>

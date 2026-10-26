@@ -1,0 +1,3 @@
+# Site operator only: generate a fresh random value locally, keep .dev.vars ignored.
+# Used only when creating a discussion, never sent to the public Next.js client.
+SUNNY_SETUP_TOKEN=

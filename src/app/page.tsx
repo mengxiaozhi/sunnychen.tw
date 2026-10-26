@@ -6,6 +6,7 @@ import Spark from '../components/Spark';
 import BaseballToy from '../components/BaseballToy';
 import SupportSection from '../components/SupportSection';
 import ElectionCountdown from '../components/ElectionCountdown';
+import DeliberationTeaser from '../components/DeliberationTeaser';
 import { chapters } from '../data/story';
 import './home.css';
 
@@ -73,6 +74,7 @@ export default function HomePage() {
       </div>
     </div></section>
 
+    <DeliberationTeaser />
     <SupportSection />
 
     <section id="contact" className="contact-section"><div className="container">
