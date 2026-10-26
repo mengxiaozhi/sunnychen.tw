@@ -29,7 +29,7 @@ export default function HomePage() {
     <section className="hero" aria-labelledby="hero-title">
       <div className="container hero-inner">
         <div className="hero-copy">
-          <h1 id="hero-title"><span className="hero-line"><span className="teal-word">幸福</span>，</span><span className="hero-line">怡起<span className="teal-word">拚</span>。</span><span className="candidate-name"><strong>陳怡君</strong><span>新北市議員參選人・中和</span></span></h1>
+          <h1 id="hero-title"><span className="hero-line"><span className="teal-word">幸福</span>，</span><span className="hero-line">怡<span className="hero-accent">起</span><span className="teal-word">拚</span>。</span><span className="candidate-name"><strong>陳怡君</strong><span>新北市議員參選人・中和</span></span></h1>
           <p className="hero-message">這不只是一場選舉，<br />而是用一整段人生，<span className="highlight">寫下的回應。</span></p>
           <div className="hero-actions"><Link className="button hero-card-action" href={SHARE_CARD_ENTRY}>製作中和小卡 <Arrow /></Link><div className="hero-secondary-actions"><Link className="text-link hero-story-link" href="#story">翻開我的故事 <Arrow /></Link><a className="social-link" href={facebook} target="_blank" rel="noopener noreferrer"><span className="fb-icon" aria-hidden="true">f</span> 追蹤 Facebook <Arrow diagonal /></a></div></div>
           <span className="hero-speed" aria-hidden="true"><i /><i /></span>
