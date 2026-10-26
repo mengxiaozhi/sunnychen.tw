@@ -1,0 +1,30 @@
+{
+  "name": "sunnychen-tw",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "homepage": "https://sunnychen.tw",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mengxiaozhi/sunnychen.tw.git"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "gsap": "3.15.0",
+    "next": "16.4.3",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "5.9.3"
+  }
+}

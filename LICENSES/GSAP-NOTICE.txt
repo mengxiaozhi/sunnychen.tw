@@ -1,0 +1,35 @@
+GSAP 3.15.0 upstream source notices
+
+The following banners are reproduced verbatim from the installed gsap 3.15.0
+package: dist/gsap.js and dist/ScrollTrigger.js.
+
+This is a notice file, not the full GreenSock Standard License.
+The upstream license terms are at https://gsap.com/standard-license .
+The original project license does not relicense GSAP or its plugins.
+
+/*!
+   * GSAP 3.15.0
+   * https://gsap.com
+   *
+   * @license Copyright 2008-2026, GreenSock. All rights reserved.
+   * Subject to the terms at https://gsap.com/standard-license
+   * @author: Jack Doyle, jack@greensock.com
+  */
+
+/*!
+   * Observer 3.15.0
+   * https://gsap.com
+   *
+   * @license Copyright 2008-2026, GreenSock. All rights reserved.
+   * Subject to the terms at https://gsap.com/standard-license
+   * @author: Jack Doyle, jack@greensock.com
+  */
+
+/*!
+   * ScrollTrigger 3.15.0
+   * https://gsap.com
+   *
+   * @license Copyright 2008-2026, GreenSock. All rights reserved.
+   * Subject to the terms at https://gsap.com/standard-license
+   * @author: Jack Doyle, jack@greensock.com
+  */

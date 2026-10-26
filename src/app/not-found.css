@@ -1,0 +1,21 @@
+.not-found-page.container { position: relative; isolation: isolate; width: 100%; max-width: none; margin: 0; padding: 55px 24px 90px; text-align: center; color: var(--ink, #153f3b); background: var(--pink, #f6b1aa); border-bottom: 2px solid var(--ink); }
+.not-found-page::before { content: ''; position: absolute; top: 24%; left: 13%; width: 65px; height: 78px; background: var(--teal, #28c8c8); clip-path: polygon(50% 0,62% 36%,100% 50%,62% 62%,50% 100%,37% 64%,0 50%,37% 36%); transform: rotate(-12deg); z-index: -1; pointer-events: none; }
+.not-found-page::after { content: ''; position: absolute; right: 12%; top: 35%; width: 120px; height: 7px; background: #fff; box-shadow: -15px 18px 0 var(--teal); border-radius: 90% 10%; transform: rotate(-17deg); z-index: -1; pointer-events: none; }
+.not-found-page .error-number { display: block; font-size: clamp(130px, 17vw, 225px); font-weight: 900; font-style: italic; line-height: 1.15; letter-spacing: -.07em; margin-bottom: 9px; padding-right: .08em; -webkit-text-stroke: 7px #fff; paint-order: stroke fill; text-shadow: 8px 8px 0 var(--teal); }
+.not-found-page .section-label { font-weight: 800; margin-bottom: 22px; }
+.not-found-page h1 { font-size: clamp(32px, 4vw, 48px); font-weight: 900; font-style: italic; line-height: 1.5; margin-block: 19px; padding-inline: .08em; -webkit-text-stroke: 3px #fff; paint-order: stroke fill; }
+.not-found-page p:not(.section-label) { font-size: 17px; line-height: 1.9; margin-bottom: 30px; }
+.not-found-page .button { margin-top: 4px; min-width: 180px; font-weight: 800; color: var(--ink); background: var(--teal); border: 2px solid var(--ink); box-shadow: 5px 5px 0 var(--ink); transition: transform .18s ease, box-shadow .18s ease; }
+.not-found-page .button:hover { transform: translate(3px, 3px); box-shadow: 2px 2px 0 var(--ink); }
+@media (max-width: 700px) {
+  .not-found-page.container { padding: 48px 20px 68px; }
+  .not-found-page::before { top: 14%; left: 7%; width: 30px; height: 37px; }
+  .not-found-page::after { right: 5%; top: 36%; width: 55px; height: 5px; box-shadow: -10px 11px 0 var(--teal); }
+  .not-found-page .error-number { font-size: clamp(125px, 34vw, 200px); -webkit-text-stroke: 5px #fff; text-shadow: 5px 5px 0 var(--teal); }
+  .not-found-page .section-label { font-size: 10px; letter-spacing: .14em; }
+  .not-found-page h1 { font-size: clamp(26px, 7.2vw, 37px); margin-block: 17px; -webkit-text-stroke: 2px #fff; }
+  .not-found-page p:not(.section-label) { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .not-found-page .button { transition: none; }
+}
