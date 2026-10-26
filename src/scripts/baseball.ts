@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 
-export type BaseballController = { spin: () => void; reset: () => void; dispose: () => void };
-type Callbacks = { ready: () => void; unavailable: () => void };
+export type BaseballController = { spin: () => void; reset: () => void; setRolling: (enabled: boolean) => void; dispose: () => void };
+type Callbacks = { ready: () => void; unavailable: () => void; playbackChanged?: (state: { rolling: boolean; reducedMotion: boolean }) => void };
 
 /** Original geometry and procedural grain; no external textures or model requests. */
 export function createBaseball(host: HTMLElement, callbacks: Callbacks): BaseballController {
@@ -88,11 +88,16 @@ export function createBaseball(host: HTMLElement, callbacks: Callbacks): Basebal
   let visible = false;
   let lost = false;
   let announced = false;
+  let rollingRequested = true;
+  let lastTime: number | null = null;
   let motion: { start: number; from: THREE.Quaternion } | null = null;
   let pointer: { id: number; x: number; y: number; type: string } | null = null;
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
   const turn = new THREE.Quaternion();
   const xAxis = new THREE.Vector3(1, 0, 0);
+  const rollAxis = new THREE.Vector3(0.35, 1, 0.12).normalize();
+  const rolling = () => rollingRequested && !preference.matches;
+  const announcePlayback = () => callbacks.playbackChanged?.({ rolling: rolling(), reducedMotion: preference.matches });
 
   function schedule() {
     if (!frame && !disposed && visible && !document.hidden && !lost) frame = requestAnimationFrame(render);
@@ -100,26 +105,32 @@ export function createBaseball(host: HTMLElement, callbacks: Callbacks): Basebal
   function render(now: number) {
     frame = 0;
     if (disposed || !visible || document.hidden || lost) return;
+    const delta = lastTime === null ? 0 : Math.min(Math.max((now - lastTime) / 1000, 0), 0.05);
+    lastTime = now;
     if (motion) {
       const progress = Math.min((now - motion.start) / 1000, 1);
       const eased = 1 - (1 - progress) ** 3;
       ball.quaternion.copy(motion.from).premultiply(turn.setFromAxisAngle(yAxis, Math.PI * 2 * eased));
       ball.position.y = Math.sin(progress * Math.PI) * 0.13;
       if (progress === 1) motion = null;
+    } else if (rolling() && !pointer) {
+      ball.quaternion.premultiply(turn.setFromAxisAngle(rollAxis, delta * 0.42));
     }
     try {
       renderer.render(scene, camera);
       if (!announced) { announced = true; callbacks.ready(); }
     } catch {
       lost = true;
+      releasePointer(); stop();
       callbacks.unavailable();
     }
-    if (motion && !lost) schedule();
+    if ((motion || (rolling() && !pointer)) && !lost) schedule();
   }
   function stop() {
     cancelAnimationFrame(frame);
     frame = 0;
     motion = null;
+    lastTime = null;
     ball.position.y = 0;
   }
   function rotate(x: number, y: number) {
@@ -135,7 +146,13 @@ export function createBaseball(host: HTMLElement, callbacks: Callbacks): Basebal
     motion = { start: performance.now(), from: ball.quaternion.clone() };
     schedule();
   }
+  function setRolling(enabled: boolean) {
+    if (disposed) return;
+    rollingRequested = enabled;
+    stop(); announcePlayback(); schedule();
+  }
   function resize() {
+    if (disposed) return;
     const { width, height } = host.getBoundingClientRect();
     if (!width || !height) return;
     renderer.setSize(width, height, false);
@@ -144,7 +161,7 @@ export function createBaseball(host: HTMLElement, callbacks: Callbacks): Basebal
     schedule();
   }
   function pointerDown(event: PointerEvent) {
-    if (event.button !== 0 || lost || pointer) return;
+    if (event.button !== 0 || disposed || lost || pointer) return;
     stop();
     schedule();
     pointer = { id: event.pointerId, x: event.clientX, y: event.clientY, type: event.pointerType };
@@ -160,10 +177,17 @@ export function createBaseball(host: HTMLElement, callbacks: Callbacks): Basebal
   }
   function pointerEnd(event: PointerEvent) {
     if (pointer?.id !== event.pointerId) return;
+    releasePointer();
+    lastTime = null;
+    schedule();
+  }
+  function releasePointer() {
+    const active = pointer;
     pointer = null;
-    if (host.hasPointerCapture(event.pointerId)) host.releasePointerCapture(event.pointerId);
+    if (active && host.hasPointerCapture(active.id)) host.releasePointerCapture(active.id);
   }
   function keyDown(event: KeyboardEvent) {
+    if (disposed || lost) return;
     const step = Math.PI / 12;
     const moves: Record<string, [number, number]> = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
     if (event.key === 'Home') { event.preventDefault(); reset(); }
@@ -172,18 +196,18 @@ export function createBaseball(host: HTMLElement, callbacks: Callbacks): Basebal
   function contextLost(event: Event) {
     event.preventDefault();
     lost = true;
-    pointer = null;
+    releasePointer();
     stop();
     callbacks.unavailable();
   }
-  function contextRestored() { lost = false; announced = false; resize(); schedule(); }
-  function visibilityChanged() { if (document.hidden) { pointer = null; stop(); } else schedule(); }
-  function preferenceChanged() { if (preference.matches) { stop(); schedule(); } }
+  function contextRestored() { if (disposed) return; lost = false; announced = false; lastTime = null; resize(); schedule(); }
+  function visibilityChanged() { if (document.hidden) { releasePointer(); stop(); } else { lastTime = null; schedule(); } }
+  function preferenceChanged() { stop(); announcePlayback(); schedule(); }
   const resizeObserver = new ResizeObserver(resize);
   resizeObserver.observe(host);
   const intersectionObserver = new IntersectionObserver(entries => {
     visible = entries.some(entry => entry.isIntersecting);
-    if (visible) schedule(); else { pointer = null; stop(); }
+    if (visible) { lastTime = null; schedule(); } else { releasePointer(); stop(); }
   });
   intersectionObserver.observe(host);
   host.addEventListener('pointerdown', pointerDown);
@@ -196,10 +220,12 @@ export function createBaseball(host: HTMLElement, callbacks: Callbacks): Basebal
   canvas.addEventListener('webglcontextrestored', contextRestored);
   document.addEventListener('visibilitychange', visibilityChanged);
   preference.addEventListener('change', preferenceChanged);
+  announcePlayback();
   resize();
 
-  return { spin, reset, dispose() {
+  return { spin, reset, setRolling, dispose() {
     disposed = true;
+    releasePointer();
     stop();
     resizeObserver.disconnect();
     intersectionObserver.disconnect();
@@ -213,7 +239,6 @@ export function createBaseball(host: HTMLElement, callbacks: Callbacks): Basebal
     canvas.removeEventListener('webglcontextrestored', contextRestored);
     document.removeEventListener('visibilitychange', visibilityChanged);
     preference.removeEventListener('change', preferenceChanged);
-    if (pointer && host.hasPointerCapture(pointer.id)) host.releasePointerCapture(pointer.id);
     stitches.dispose();
     sphereGeometry.dispose(); seamGeometry.dispose(); stitchGeometry.dispose();
     leather.dispose(); seamMaterial.dispose(); thread.dispose(); texture.dispose();

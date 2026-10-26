@@ -10,6 +10,8 @@ export default function BaseballToy() {
   const viewport = useRef<HTMLDivElement>(null);
   const controller = useRef<BaseballController | null>(null);
   const [status, setStatus] = useState<'idle' | 'loading' | 'ready' | 'unavailable'>('idle');
+  const [rolling, setRolling] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
   const hintId = useId();
 
   useEffect(() => {
@@ -28,6 +30,7 @@ export default function BaseballToy() {
         controller.current = createBaseball(host, {
           ready: () => { if (!cancelled) setStatus('ready'); },
           unavailable: () => { if (!cancelled) setStatus('unavailable'); },
+          playbackChanged: state => { if (!cancelled) { setRolling(state.rolling); setReducedMotion(state.reducedMotion); } },
         });
       } catch {
         if (!cancelled) setStatus('unavailable');
@@ -52,7 +55,7 @@ export default function BaseballToy() {
 
   const ready = status === 'ready';
   return (
-    <div className="baseball-toy" data-baseball-state={status}>
+    <div className="baseball-toy" data-baseball-state={status} data-baseball-rolling={rolling}>
       <div
         ref={viewport}
         className="baseball-viewport"
@@ -73,10 +76,11 @@ export default function BaseballToy() {
       <div className="baseball-copy">
         <h3>怡起，<br />轉個好球。</h3>
         <p id={hintId} className="baseball-hint" aria-live="polite">
-          {status === 'loading' ? '棒球準備中…' : status === 'unavailable' ? '目前顯示靜態棒球。' : ready ? '左右拖曳，也能用方向鍵旋轉。' : '一顆小棒球，和你怡起玩。'}
+          {status === 'loading' ? '棒球準備中…' : status === 'unavailable' ? '目前顯示靜態棒球。' : ready ? reducedMotion ? '已減少動態效果，仍可拖曳或用方向鍵轉動。' : rolling ? '棒球持續滾動，拖曳或用方向鍵也能轉。' : '已暫停，拖曳或用方向鍵也能轉。' : '一顆小棒球，和你怡起玩。'}
         </p>
         <div className="baseball-actions">
           <button type="button" className="baseball-spin" disabled={!ready} onClick={() => controller.current?.spin()}>轉個好球 <Arrow diagonal /></button>
+          <button type="button" className="baseball-reset" disabled={!ready || reducedMotion} onClick={() => controller.current?.setRolling(!rolling)}>{rolling ? '暫停滾動' : '繼續滾動'}</button>
           <button type="button" className="baseball-reset" disabled={!ready} onClick={() => controller.current?.reset()}>重設</button>
         </div>
       </div>
